@@ -57,20 +57,23 @@
                                 </thead>
                                 <tbody>
                                        <?php 
-                            $c_data = $db->query("SELECT * FROM `cart` ORDER BY `ct_id` DESC ");
+                            $c_data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
+                                                FROM cart
+                                                LEFT JOIN product ON cart.p_id = product.id
+                                                ORDER BY cart.ct_id DESC ");
                                 while($cart = $c_data->fetch_object()){ 
                                     ?>
                                     <tr class="tf-cart_item each-prd file-delete">
                                         <td>
                                             <div class="cart_product">
                                                 <a href="product-detail.php" class="img-prd">
-                                                    <img class="lazyload" src="images/products/product-1.jpg" data-src="images/products/product-1.jpg"
+                                                    <img class="lazyload" src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>"
                                                         alt="T Shirt">
                                                 </a>
                                                 <div class="infor-prd">
                                                     <h6 class="prd_name">
                                                         <a href="product-detail.php" class="link">
-                                                            Short Sleeve Office Shirt
+                                                            <?= $cart->product_name;?>
                                                         </a>
                                                     </h6>
                                                     <div class="prd_select text-small">
@@ -89,16 +92,16 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart_price h6 each-price" data-cart-title="Price"><?= $cart->price ;?></td>
+                                        <td class="cart_price h6 each-price" data-cart-title="Price"><?= $cart->product_selling_price   ;?></td>
                                         <td class="cart_quantity" data-cart-title="Quantity">
                                             <div class="wg-quantity">
-                                                <button class="btn-quantity minus-quantity" type="button">
+                                                <a href="admin/manage/manage-cart.php?action=minus&ct_id=<?= $cart->ct_id?>" class="btn-quantity minus-quantity" type="button">
                                                     <i class="icon-minus fs-14"></i>
-                                                </button>
+                                </a>
                                                 <input class="quantity-product" type="text" name="qty" value="<?= $cart->qty ;?>">
-                                                <button class="btn-quantity plus-quantity" type="button">
+                                                <a href="admin/manage/manage-cart.php?action=add&ct_id=<?= $cart->ct_id?>" class="btn-quantity plus-quantity" type="button" >
                                                     <i class="icon-plus fs-14"></i>
-                                                </button>
+                                                 </a>
                                             </div>
                                         </td>
                                         <td class="cart_total h6 each-subtotal-price" data-cart-title="Total"></td>

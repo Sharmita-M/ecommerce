@@ -1115,7 +1115,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Product 6 -->
+               
                         <!-- Pagination -->
                         <div class="wd-full wg-pagination">
                             <a href="#" class="pagination-item h6 direct"><i class="icon icon-caret-left"></i></a>
@@ -1130,6 +1130,7 @@
 
                     <div class="wrapper-shop tf-grid-layout tf-col-4" id="gridLayout">
                         <!-- Product 1 -->
+                       
                 
                              <?php
                                     $product = $db->query("SELECT * FROM `product` ");
@@ -1137,7 +1138,7 @@
                                     ?>
                         <div class="card-product grid" data-availability="In stock" data-brand="fisoew">
                             <div class="card-product_wrapper">
-                                <a href="product-detail.html" class="product-img">
+                                <a href="product-detail.php" class="product-img">
                                     <img class="lazyload img-product" src="admin/uploads/products/<?= $row->product_image;?>" data-src="admin/uploads/products/<?= $row->product_image;?>"
                                         alt="Product">
                                     <img class="lazyload img-hover" src="admin/uploads/products/<?= $row->product_image;?>" data-src="admin/uploads/products/<?= $row->product_image;?>"
@@ -1146,11 +1147,11 @@
                                 <ul class="product-action_list">
                                 
                                     <li>
-                                       <button type="submit" name="action" value="submit"> <a href="#shoppingCart"  data-bs-toggle="offcanvas" class="hover-tooltip tooltip-left box-icon">
+                                       <a href="admin/manage/manage-cart.php?action=submit&id=<?= $row->id; ?>" class="hover-tooltip tooltip-left box-icon">
                                             <span class="icon icon-shopping-cart-simple"></span>
                                             <span class="tooltip">Add to cart</span>
                                         </a>
-                                        </button>
+                                        
                                     </li>
                                     <li class="wishlist">
                                         <a href="javascript:void(0);" class="hover-tooltip tooltip-left box-icon">

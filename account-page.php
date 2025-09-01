@@ -1,12 +1,17 @@
 <?php include 'includes/header.php'; 
-//  echo session_id();
-// echo session_status();
-// if(empty($_SESSION['u_id'])){
-//   $_SESSION['errorMsg'] = 'Please login to access';
-//   $_SESSION['errorStatus'] = 'success';
-//     header("Location: ../login.php");
-//     exit();
-// };
+if (!isset($_SESSION['u_id'])) {
+    echo "<script>window.location.replace('login.php');</script>";  
+};
+if (!empty($_SESSION['errorMsg'])):
+    $alertClass = $_SESSION['errorStatus'] === 'success' ? 'alert-success' : 'alert-danger';
+?>
+<div id="sessionAlert" class="alert <?= $alertClass ?> alert-dismissible fade show position-absolute top-0 start-0 w-100 text-center z-3" role="alert">
+  <?= $_SESSION['errorMsg']; ?>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php
+    unset($_SESSION['errorMsg'], $_SESSION['errorStatus']);
+endif;
 
 ?>
         <!-- Page Title -->

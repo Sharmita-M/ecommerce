@@ -175,9 +175,10 @@ include 'admin/config.php';
                                 <a class="nav-icon-item link" href="#shoppingCart" data-bs-toggle="offcanvas">
                                     <i class="icon icon-shopping-cart-simple"></i>
                                 </a>
+                              
                                 <?php
-                                $session_id = session_id();
-                                $cart_count = $db->query("SELECT COUNT(*) AS `total_cart` FROM `cart` WHERE `session_id` = '$session_id' AND `status` = 0")->fetch_object();
+                               
+                                $cart_count = $db->query("SELECT COUNT(*) AS `total_cart` FROM `cart` ")->fetch_object();
                                 ?>
                                 <span class="count"><?=  $cart_count->total_cart??'0';?></span>
                             </li>

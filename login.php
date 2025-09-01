@@ -34,7 +34,7 @@ include 'includes/header.php';
                 <input type="password" name="password" class="form-control" id="loginPassword" placeholder="Password">
               </div>
               <div class="d-grid">
-                <a type="submit" name="submit" value="login" class="tf-btn animate-btn fw-normal" href="account-page.php" >Login</a>
+                <button type="submit" name="submit" value="login" class="tf-btn animate-btn fw-normal" >Login</button>
               </div>
             </form>
           </div>

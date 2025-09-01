@@ -295,7 +295,7 @@
       alert.classList.remove('show'); // hide with fade
       alert.classList.add('fade');    // ensure fade is active
     }
-  }, 2000);
+  }, 3000);
 </script>
 
        

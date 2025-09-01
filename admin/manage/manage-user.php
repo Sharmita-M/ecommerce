@@ -9,19 +9,21 @@ if(empty($_POST['submit'])){
 }
 switch($submit){
     case'login':
+  
         $email = mysqli_real_escape_string($db, $_POST['email']);
         $password = mysqli_real_escape_string($db, $_POST['password']);
 
      $data = $db-> query( "SELECT * FROM `user` WHERE `email` = '$email' AND `password` = '$password' " );
 
      if($data-> num_rows > 0){
-        $value = $data-> fetch_object();
-        $u_id = $value-> u_id;
+        $value = $data->fetch_object();
+        $u_id = $value->u_id;
         $email = $value-> email;
-
+        // echo $u_id;
+        // die();
         $_SESSION['u_id'] = $u_id;
         $_SESSION['email'] = $email;    
-        $_SESSION['errorMsg'] = 'Welcome Admin';
+        $_SESSION['errorMsg'] = 'Welcome User';
         $_SESSION['errorStatus'] = 'success';
         header("Location: ../../account-page.php");
     
@@ -33,10 +35,9 @@ switch($submit){
      break;
 
      case 'logout':
+        unset($_SESSION['u_id']);
         unset($_SESSION['email']);
         session_destroy();
-        $_SESSION['errorMsg'] = 'You have been logged out successfully';
-        $_SESSION['errorStatus'] = 'success';
         header("Location:../../login.php");
         break;
 
