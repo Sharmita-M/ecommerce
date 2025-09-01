@@ -70,7 +70,6 @@ endif;
           <th>Sl No</th>
           <th>Action</th>
           <th>Product Name</th>
-          <th>Gender</th>
           <th>Description</th>
           <th>Image</th>
           <th>Date Of Add</th>
@@ -91,7 +90,6 @@ endif;
               <button onclick="location.href='manage/manage-category.php?action=delete&pc_id=<?= $row->pc_id;?>' " class="btn btn-sm btn-outline-danger">Delete</button>
             </td>
           <td><?= $row-> pc_name?></td>
-          <td><?= $row-> Gender?></td>
           <td><?= $row -> description?></td>
           <td><img src="uploads/category/<?= $row-> pc_image?>" alt="no images found" class="img-fluid" style="width: 50px;"></td>
           <td><?= $row-> create_at?></td>

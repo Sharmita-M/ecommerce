@@ -11,56 +11,22 @@
    // die();
    
    switch($submit){
-//        case 'submit':
-//            $qty   = mysqli_real_escape_string($db, $_REQUEST['qty']);
-//            $qty = !empty($_POST['qty']) ? $_REQUEST['qty'] : 1;
-//            $product_res = $db->query("SELECT `id`, `product_selling_price`,`status` FROM `product`");
-//        if ($product_res->num_rows === 0) {
-//            $_SESSION['msg'] = "Product not found.";
-//            header("Location: ../../view-cart.php");
-//            exit;
-//        };
-       
-//        $productT = $product_res->fetch_object();
-//        $p_id = $productT->id; 
-//        $p_idd = mysqli_real_escape_string($db, $_REQUEST['id']);
-//        $price = $productT->product_selling_price;
-//        $status = $productT->status;
-//     //    echo("INSERT INTO `cart` (`ct_id`, `p_id`,`session_id`, `price` , `qty` , `status` , `create_at`) VALUES ( NULL, '$p_idd', '$session_id', '$price', '$qty', '1', '$datetime')");
-//     //    die();
-//             $inserted = $db-> query("INSERT INTO `cart` (`ct_id`, `p_id`,`session_id`, `price` , `qty` , `status` , `create_at`) VALUES ( NULL, '$p_idd', '$session_id', '$price', '$qty', '1', '$datetime')");
-//              header("Location: ../../view-cart.php");      
-//            $check = $db->query("SELECT * FROM `cart` WHERE `p_id` = '$p_id' AND `session_id` = '$session_id'");
-   
-//    if ($check->num_rows > 0) {
-//        $db->query("UPDATE `cart` SET `qty` = `qty` + $qty WHERE `p_id` = '$p_id' AND `session_id` = '$session_id'");
-//    };
-//    header("Location: ../../view-cart.php");     
-//              exit;
-//        break;
-
-case 'submit':
-
-    // Get product id and qty safely
+   case 'submit':
     $p_id = mysqli_real_escape_string($db, $_REQUEST['id']);
     $qty = isset($_REQUEST['qty']) && $_REQUEST['qty'] > 0 ? (int)$_REQUEST['qty'] : 1;
-
-    // Check if product exists
     $product_res = $db->query("SELECT `id`, `product_selling_price`, `status` FROM `product` WHERE `id` = '$p_id'");
-
+   
     if ($product_res->num_rows === 0) {
         $_SESSION['msg'] = "Product not found.";
         header("Location: ../../view-cart.php");
         exit;
-    }
-
+    };
+   
     $productT = $product_res->fetch_object();
     $price = $productT->product_selling_price;
     $status = $productT->status;
-
-    // Check if product already in cart
     $check = $db->query("SELECT * FROM `cart` WHERE `p_id` = '$p_id' AND `session_id` = '$session_id'");
-
+   
     if ($check->num_rows > 0) {
         // Update qty
         $db->query("UPDATE `cart` SET `qty` = `qty` + $qty WHERE `p_id` = '$p_id' AND `session_id` = '$session_id'");
@@ -68,13 +34,13 @@ case 'submit':
         // Insert new
         $db->query("INSERT INTO `cart` (`ct_id`, `p_id`, `session_id`, `price`, `qty`, `status`, `create_at`) VALUES (NULL, '$p_id', '$session_id', '$price', '$qty', '1', '$datetime')");
     }
-
+   
     header("Location: ../../view-cart.php");
     exit;
     break;
-
    
-       case 'delete':
+   
+    case 'delete':
             $ct_id = mysqli_real_escape_string($db, $_REQUEST['id']);
             $deleted = $db->query(" DELETE FROM `cart` WHERE `ct_id` = '$ct_id'");
                header("Location: ../../view-cart.php");     

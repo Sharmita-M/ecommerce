@@ -1901,9 +1901,9 @@
         </div>
     </div>
     <!-- /Search -->
-    <!-- Shopping Cart -->
+     <!-- Shopping Cart -->
     <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
-       
+     
         <div class="canvas-wrapper">
             <div class="popup-header">
                 <span class="title fw-semibold h4">Shopping cart</span>
@@ -1925,64 +1925,18 @@
                                         </p>
                                     </div>
                                     <div class="shop-empty_bot">
-                                        <a href="shop-default.html" class="tf-btn animate-btn">
+                                        <a href="product.php" class="tf-btn animate-btn">
                                             Shopping
                                         </a>
-                                        <a href="index.html" class="tf-btn style-line">
+                                        <a href="index.php" class="tf-btn style-line">
                                             Back to home
                                         </a>
                                     </div>
                                 </div>
-                               
-                               
-                                </div>
-                                <div class="tf-mini-cart-item file-delete">
-                                    <div class="tf-mini-cart-image">
-                                        <img class="lazyload" data-src="images/products/product-3.jpg" src="images/products/product-3.jpg"
-                                            alt="img-product">
-                                    </div>
-                                    <div class="tf-mini-cart-info">
-                                        <div class="text-small text-main-2 sub">Sweatshirt</div>
-                                        <h6 class="title">
-                                            <a href="product-detail.html" class="link text-line-clamp-1">ASICS Core Running Tights</a>
-                                        </h6>
-                                        <div class="size">
-                                            <div class="text-small text-main-2 sub">Size: XS</div>
-                                            <div class="text-small text-main-2 sub">Color:</div>
-                                            <div class="dot-color bg-light-beige"></div>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="h6 fw-semibold">
-                                                <span class="number">1x</span>
-                                                <span class="price text-primary tf-mini-card-price">$18.99</span>
-                                            </div>
-                                            <i class="icon link icon-close remove"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tf-mini-cart-item file-delete">
-                                    <div class="tf-mini-cart-image">
-                                        <img class="lazyload" data-src="images/products/product-4.jpg" src="images/products/product-4.jpg"
-                                            alt="img-product">
-                                    </div>
-                                    <div class="tf-mini-cart-info">
-                                        <div class="text-small text-main-2 sub">Shorts</div>
-                                        <h6 class="title">
-                                            <a href="product-detail.html" class="link text-line-clamp-1">New Balance Athletics Shorts</a>
-                                        </h6>
-                                        <div class="size">
-                                            <div class="text-small text-main-2 sub">Size: XS</div>
-                                            <div class="text-small text-main-2 sub">Color:</div>
-                                            <div class="dot-color bg-baby-blue"></div>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="h6 fw-semibold">
-                                                <span class="number">1x</span>
-                                                <span class="price text-primary tf-mini-card-price">$22.50</span>
-                                            </div>
-                                            <i class="icon link icon-close remove"></i>
-                                        </div>
-                                    </div>
+                             
+                             
+                                    
+                        
                                 </div>
                             </div>
                         </div>
@@ -2014,8 +1968,8 @@
                         </div>
                         <div class="tf-mini-cart-bottom-wrap">
                             <div class="tf-mini-cart-view-checkout">
-                                <a href="view-cart.html" class="tf-btn btn-white animate-btn animate-dark line">View cart</a>
-                                <a href="checkout.html" class="tf-btn animate-btn d-inline-flex bg-dark-2 w-100 justify-content-center"><span>Check
+                                <a href="view-cart.php" class="tf-btn btn-white animate-btn animate-dark line">View cart</a>
+                                <a href="checkout.php" class="tf-btn animate-btn d-inline-flex bg-dark-2 w-100 justify-content-center"><span>Check
                                         out</span></a>
                             </div>
                             <div class="free-shipping">
