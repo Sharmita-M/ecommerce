@@ -60,7 +60,6 @@ switch($submit){
         };
         header("Location: ../category.php?success");
     break;
-
     case 'delete':
         $pc_id = mysqli_real_escape_string($db, $_REQUEST['pc_id']);
         $result = $db-> query("SELECT * FROM `product_categories` WHERE `pc_id` = '$pc_id'");

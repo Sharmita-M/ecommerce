@@ -6,7 +6,7 @@
                 <div class="content">
                     <h1 class="title-page">Checkout</h1>
                     <ul class="breadcrumbs-page">
-                        <li><a href="index.html" class="h6 link">Home</a></li>
+                        <li><a href="index.php" class="h6 link">Home</a></li>
                         <li class="d-flex"><i class="icon icon-caret-right"></i></li>
                         <li>
                             <h6 class="current-page fw-normal">Checkout</h6>
@@ -27,7 +27,7 @@
                                 <form>
                                     <div class="ip-discount-code mb-0">
                                         <input type="text" placeholder="Enter your code" required>
-                                        <button class="tf-btn animate-btn" type="submit">
+                                        <button class="tf-btn animate-btn" type="submit" name="apply_code" >
                                             Apply Code
                                         </button>
                                     </div>
@@ -35,14 +35,15 @@
                             </div>
                             <form class="tf-checkout-cart-main">
                                 <div class="box-ip-checkout estimate-shipping">
+                                    <form action="admin/manage/manage-checkout.php" method="POST" enctype="multipart/form-data">
                                     <h2 class="title type-semibold">Infomation</h2>
                                     <div class="form_content">
                                         <div class="cols tf-grid-layout sm-col-2">
                                             <fieldset>
-                                                <input type="text" name="first-name_infor" placeholder="First name" required>
+                                                <input type="text" name="first_name_infor" placeholder="First name" required>
                                             </fieldset>
                                             <fieldset>
-                                                <input type="text" name="last-name_infor" placeholder="Last name" required>
+                                                <input type="text" name="last_name_infor" placeholder="Last name" required>
                                             </fieldset>
                                         </div>
                                         <div class="cols tf-grid-layout sm-col-2">
@@ -50,12 +51,12 @@
                                                 <input type="email" name="email_infor" placeholder="Email address" required>
                                             </fieldset>
                                             <fieldset>
-                                                <input type="number" name="phone_infor" placeholder="Phone number" required>
+                                                <input type="tel" maxlength="10" minlength="10" name="phone_infor" placeholder="Phone number" required>
                                             </fieldset>
                                         </div>
                                         <fieldset>
                                             <div class="tf-select">
-                                                <select class="w-100" id="shipping-country-form" name="address[country]" data-default="">
+                                                <select class="w-100" id="shipping-country-form" name="address_country" data-default="">
                                                     <option selected disabled value=""> Choose country / Region</option>
                                                     <option value="Australia"
                                                         data-provinces='[["Australian Capital Territory","Australian Capital Territory"],["New South Wales","New South Wales"],["Northern Territory","Northern Territory"],["Queensland","Queensland"],["South Australia","South Australia"],["Tasmania","Tasmania"],["Victoria","Victoria"],["Western Australia","Western Australia"]]'>
@@ -98,7 +99,7 @@
                                         <div class="cols tf-grid-layout sm-col-2">
                                             <fieldset>
                                                 <div class="tf-select">
-                                                    <select id="shipping-province-form" name="address[province]" data-default="">
+                                                    <select id="shipping-province-form" name="address_province" data-default="">
                                                         <option selected disabled value="">Choose State</option>
                                                     </select>
                                                 </div>
@@ -107,8 +108,11 @@
                                                 <input type="number" name="number_card" placeholder="Postal code" required>
                                             </fieldset>
                                         </div>
-                                        <textarea placeholder="Note about your order" style="height: 180px;"></textarea>
+                                        <textarea name="description" placeholder="Note about your order" style="height: 180px;"></textarea>
                                     </div>
+                                     <button class="tf-btn animate-btn mt-3" type="submit" name="submit" value="action">
+                                           Save Adress
+                                        </button>
                                 </div>
                                 <div class="box-ip-payment">
                                     <h2 class="title type-semibold">Choose Payment Option</h2>
@@ -178,6 +182,7 @@
                                             <div id="paypal-payment" class="collapse" data-bs-parent="#payment-method-box"></div>
                                         </div>
                                     </div>
+                                    </form>
                                     <p class="h6 mb-20">
                                         Your personal data will be used to process your order, support your experience throughout this website, and
                                         for
@@ -219,15 +224,25 @@
                             <div class="box-your-order">
                                 <h2 class="title type-semibold">Your Order</h2>
                                 <ul class="list-order-product">
+                                                <?php 
+                                                $total = 0;
+                                                $data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
+                                                FROM cart
+                                                LEFT JOIN product ON cart.p_id = product.id
+                                                ORDER BY cart.ct_id DESC ");
+                                while($cart = $data->fetch_object()){ 
+                                     $item_total = $cart->product_selling_price * $cart->qty;
+                                        $total += $item_total;
+                                    ?>
                                     <li class="order-item">
-                                        <a href="product-detail.html" class="img-prd">
-                                            <img class="lazyload" src="images/products/product-1.jpg" data-src="images/products/product-1.jpg"
+                                        <a href="product-detail.php?p_id=<?= $cart->p_id ?>" class="img-prd">
+                                            <img class="lazyload" src="admin/uploads/products/<?= $cart->product_image ?>"  data-src="admin/uploads/products/<?= $cart->product_image ?>"
                                                 alt="T Shirt">
                                         </a>
                                         <div class="infor-prd">
                                             <h6 class="prd_name">
-                                                <a href="product-detail.html" class="link">
-                                                    Short Sleeve Office Shirt
+                                                <a href="product-detail.php" class="link">
+                                                    <?= $cart->product_name ?>
                                                 </a>
                                             </h6>
                                             <div class="prd_select text-small">
@@ -235,47 +250,10 @@
                                             </div>
                                         </div>
                                         <p class="price-prd h6">
-                                            $22.99
+                                             $<?= $cart->product_selling_price ?> x <?= $cart->qty ?>
                                         </p>
                                     </li>
-                                    <li class="order-item">
-                                        <a href="product-detail.html" class="img-prd">
-                                            <img class="lazyload" src="images/products/product-9.jpg" data-src="images/products/product-9.jpg"
-                                                alt="T Shirt">
-                                        </a>
-                                        <div class="infor-prd">
-                                            <h6 class="prd_name">
-                                                <a href="product-detail.html" class="link">
-                                                    Nike Sportswear Tee Shirts
-                                                </a>
-                                            </h6>
-                                            <div class="prd_select text-small">
-                                                Size: L
-                                            </div>
-                                        </div>
-                                        <p class="price-prd h6">
-                                            $59.99
-                                        </p>
-                                    </li>
-                                    <li class="order-item">
-                                        <a href="product-detail.html" class="img-prd">
-                                            <img class="lazyload" src="images/products/underwear/product-15.jpg"
-                                                data-src="images/products/underwear/product-15.jpg" alt="T Shirt">
-                                        </a>
-                                        <div class="infor-prd">
-                                            <h6 class="prd_name">
-                                                <a href="product-detail.html" class="link">
-                                                    Half Sleeve Crop Top
-                                                </a>
-                                            </h6>
-                                            <div class="prd_select text-small">
-                                                Size: M
-                                            </div>
-                                        </div>
-                                        <p class="price-prd h6">
-                                            $99.99
-                                        </p>
-                                    </li>
+                                  <?php } ?>
                                 </ul>
                                 <ul class="list-total">
                                     <li class="total-item h6">
@@ -289,7 +267,7 @@
                                 </ul>
                                 <div class="last-total h5 fw-medium text-black">
                                     <span>Total</span>
-                                    <span>$60.00</span>
+                                    <span>$<?= number_format($total, 2) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -307,7 +285,7 @@
         </span>
         <div class="canvas-header">
             <p class="text-logo-mb">Ochaka.</p>
-            <a href="login.html" class="tf-btn type-small style-2">
+            <a href="login.php" class="tf-btn type-small style-2">
                 Login
                 <i class="icon icon-user"></i>
             </a>
@@ -318,7 +296,7 @@
                 <ul class="nav-ul-mb" id="wrapper-menu-navigation"></ul>
             </div>
             <div class="group-btn">
-                <a href="wishlist.html" class="tf-btn type-small style-2">
+                <a href="wishlist.php" class="tf-btn type-small style-2">
                     Wishlist
                     <i class="icon icon-heart"></i>
                 </a>
@@ -387,7 +365,7 @@
     <!-- Toolbar -->
     <div class="tf-toolbar-bottom">
         <div class="toolbar-item">
-            <a href="shop-default.html">
+            <a href="shop-default.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-storefront"></i>
                 </span>
@@ -403,7 +381,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="account-page.html">
+            <a href="account-page.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-user"></i>
                 </span>
@@ -411,7 +389,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="wishlist.html">
+            <a href="wishlist.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-heart"></i>
                     <span class="toolbar-count">7</span>
@@ -420,7 +398,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="view-cart.html">
+            <a href="view-cart.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-shopping-cart-simple"></i>
                     <span class="toolbar-count">24</span>
@@ -580,7 +558,7 @@
                         <div class="tf-compare-offcanvas list-empty">
                             <p class="box-text_empty h6 text-main">Your Compare is curently empty</p>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -589,7 +567,7 @@
                                 </a>
                             </div>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -598,7 +576,7 @@
                                 </a>
                             </div>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -608,7 +586,7 @@
                             </div>
                         </div>
                         <div class="tf-compare-buttons">
-                            <a href="compare.html" class="tf-btn animate-btn d-inline-flex bg-dark-2 justify-content-center">
+                            <a href="compare.php" class="tf-btn animate-btn d-inline-flex bg-dark-2 justify-content-center">
                                 Compare
                             </a>
                             <div class="tf-btn btn-white animate-btn animate-dark line clear-list-empty tf-compare-button-clear-all">
@@ -660,7 +638,7 @@
                 <div class="tf-product-info-wrap">
                     <div class="tf-product-info-inner tf-product-info-list">
                         <div class="tf-product-info-heading">
-                            <a href="product-detail.html" class="link product-info-name fw-medium h1">
+                            <a href="product-detail.php" class="link product-info-name fw-medium h1">
                                 Casual Round Neck T-Shirt
                             </a>
                             <div class="product-info-meta">
@@ -804,7 +782,7 @@
                                 </a>
                             </div>
                             <div class="group-btn">
-                                <a href="checkout.html" class="tf-btn btn-yellow w-100 animate-btn animate-dark">
+                                <a href="checkout.php" class="tf-btn btn-yellow w-100 animate-btn animate-dark">
                                     Pay with
                                     <span class="icon">
                                         <svg width="68" height="18" viewBox="0 0 68 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -833,7 +811,7 @@
                                 </a>
                             </div>
                         </div>
-                        <a href="product-detail.html" class="tf-btn-line text-normal letter-space-0 fw-normal">
+                        <a href="product-detail.php" class="tf-btn-line text-normal letter-space-0 fw-normal">
                             <span class="h5">View full details</span>
                             <i class="icon icon-arrow-top-right fs-24"></i>
                         </a>
@@ -857,39 +835,39 @@
                         <button type="submit" class="link"><i class="icon icon-magnifying-glass"></i></button>
                     </form>
                     <ul class="quick-link-list">
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Graphic tees</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Plain t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Vintage t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Band tees</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Custom t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Oversized t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Crew neck t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Graphic tees</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Plain t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Vintage t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Band tees</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Custom t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Oversized t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Crew neck t-shirts</a></li>
                     </ul>
                 </div>
                 <div class="view-history-wrap">
                     <h4 class="title">History</h4>
                     <div class="view-history-list">
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>High Visibility T Shirt Short Sleeve Reflective</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Short sleeve round neck t-shirt</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Fashionable oversized hoodie for women</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Queen fashion long sleeve shirt, basic t-shirt</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Lee Women's Wrinkle Free Relaxed Fit Straight Leg Pant</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Women's Summer Oversized T-Shirt Casual Office Fashion</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
@@ -912,7 +890,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">T-shirt</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Queen fashion long sleeve shirt, basic t-shirt</a>
+                                        <a href="product-detail.php" class="link">Queen fashion long sleeve shirt, basic t-shirt</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$99,99</span>
@@ -927,7 +905,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Hoodie</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Champion Reverse Weave Pullover</a>
+                                        <a href="product-detail.php" class="link">Champion Reverse Weave Pullover</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$149.99</span>
@@ -944,7 +922,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Shorts</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Columbia PFG Fishing Shirt</a>
+                                        <a href="product-detail.php" class="link">Columbia PFG Fishing Shirt</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$109.99</span>
@@ -959,7 +937,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Sweatshirt</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Puma Essentials Graphic Tee</a>
+                                        <a href="product-detail.php" class="link">Puma Essentials Graphic Tee</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$69.99</span>
@@ -1161,131 +1139,131 @@
                 <div class="mega-menu">
                     <div class="row-demo">
                         <div class="demo-item">
-                            <a href="index.html" class="demo-img"><img src="images/demo/home-fashion-1.jpg" alt="Demo"></a>
-                            <a href="index.html" class="demo-name">Home Fashion 1</a>
+                            <a href="index.php" class="demo-img"><img src="images/demo/home-fashion-1.jpg" alt="Demo"></a>
+                            <a href="index.php" class="demo-name">Home Fashion 1</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-2.html" class="demo-img"><img src="images/demo/home-fashion-2.jpg" alt="Demo"></a>
-                            <a href="home-fashion-2.html" class="demo-name">Home Fashion 2</a>
+                            <a href="home-fashion-2.php" class="demo-img"><img src="images/demo/home-fashion-2.jpg" alt="Demo"></a>
+                            <a href="home-fashion-2.php" class="demo-name">Home Fashion 2</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-3.html" class="demo-img"><img src="images/demo/home-fashion-3.jpg" alt="Demo"></a>
-                            <a href="home-fashion-3.html" class="demo-name">Home Fashion 3</a>
+                            <a href="home-fashion-3.php" class="demo-img"><img src="images/demo/home-fashion-3.jpg" alt="Demo"></a>
+                            <a href="home-fashion-3.php" class="demo-name">Home Fashion 3</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-4.html" class="demo-img"><img src="images/demo/home-fashion-4.jpg" alt="Demo"></a>
-                            <a href="home-fashion-4.html" class="demo-name">Home Fashion 4</a>
+                            <a href="home-fashion-4.php" class="demo-img"><img src="images/demo/home-fashion-4.jpg" alt="Demo"></a>
+                            <a href="home-fashion-4.php" class="demo-name">Home Fashion 4</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-cosmetic.html" class="demo-img"><img src="images/demo/home-cosmetic.jpg" alt="Demo"></a>
-                            <a href="home-cosmetic.html" class="demo-name">Home Cosmetic</a>
+                            <a href="home-cosmetic.php" class="demo-img"><img src="images/demo/home-cosmetic.jpg" alt="Demo"></a>
+                            <a href="home-cosmetic.php" class="demo-name">Home Cosmetic</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-skin-care.html" class="demo-img"><img src="images/demo/home-skin-care.jpg" alt="Demo"></a>
-                            <a href="home-skin-care.html" class="demo-name">Home Skincare</a>
+                            <a href="home-skin-care.php" class="demo-img"><img src="images/demo/home-skin-care.jpg" alt="Demo"></a>
+                            <a href="home-skin-care.php" class="demo-name">Home Skincare</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-decor.html" class="demo-img"><img src="images/demo/home-decor.jpg" alt="Demo"></a>
-                            <a href="home-decor.html" class="demo-name">Home Decor</a>
+                            <a href="home-decor.php" class="demo-img"><img src="images/demo/home-decor.jpg" alt="Demo"></a>
+                            <a href="home-decor.php" class="demo-name">Home Decor</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-jewelry.html" class="demo-img"><img src="images/demo/home-jewelry.jpg" alt="Demo"></a>
-                            <a href="home-jewelry.html" class="demo-name">Home Jewelry</a>
+                            <a href="home-jewelry.php" class="demo-img"><img src="images/demo/home-jewelry.jpg" alt="Demo"></a>
+                            <a href="home-jewelry.php" class="demo-name">Home Jewelry</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-electronic-market.html" class="demo-img"><img src="images/demo/home-electronic-market.jpg" alt="Demo"></a>
-                            <a href="home-electronic-market.html" class="demo-name">Home
+                            <a href="home-electronic-market.php" class="demo-img"><img src="images/demo/home-electronic-market.jpg" alt="Demo"></a>
+                            <a href="home-electronic-market.php" class="demo-name">Home
                                 Electric Market</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-pet-store.html" class="demo-img"><img src="images/demo/home-pet-store.jpg" alt="Demo"></a>
-                            <a href="home-pet-store.html" class="demo-name">Home Pet Store</a>
+                            <a href="home-pet-store.php" class="demo-img"><img src="images/demo/home-pet-store.jpg" alt="Demo"></a>
+                            <a href="home-pet-store.php" class="demo-name">Home Pet Store</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-sneaker.html" class="demo-img"><img src="images/demo/home-sneaker.jpg" alt="Demo"></a>
-                            <a href="home-sneaker.html" class="demo-name">Home Sneaker</a>
+                            <a href="home-sneaker.php" class="demo-img"><img src="images/demo/home-sneaker.jpg" alt="Demo"></a>
+                            <a href="home-sneaker.php" class="demo-name">Home Sneaker</a>
                         </div>
                         <!-- New -->
                         <div class="demo-item">
-                            <a href="home-book.html" class="demo-img">
+                            <a href="home-book.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-book.jpg" data-src="images/demo/home-book.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-book.html" class="demo-name link">Home Book</a>
+                            <a href="home-book.php" class="demo-name link">Home Book</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-organic.html" class="demo-img">
+                            <a href="home-organic.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-organic.jpg" data-src="images/demo/home-organic.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-organic.html" class="demo-name link">Home Organic</a>
+                            <a href="home-organic.php" class="demo-name link">Home Organic</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-medical.html" class="demo-img">
+                            <a href="home-medical.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-medical.jpg" data-src="images/demo/home-medical.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-medical.html" class="demo-name link">Home Medical</a>
+                            <a href="home-medical.php" class="demo-name link">Home Medical</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-gym.html" class="demo-img">
+                            <a href="home-gym.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-gym.jpg" data-src="images/demo/home-gym.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-gym.html" class="demo-name link">Home Gym</a>
+                            <a href="home-gym.php" class="demo-name link">Home Gym</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-art.html" class="demo-img">
+                            <a href="home-art.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-art.jpg" data-src="images/demo/home-art.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-art.html" class="demo-name link">Home Art</a>
+                            <a href="home-art.php" class="demo-name link">Home Art</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-accessories.html" class="demo-img">
+                            <a href="home-accessories.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-accessories.jpg" data-src="images/demo/home-accessories.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-accessories.html" class="demo-name link">Home Accessories</a>
+                            <a href="home-accessories.php" class="demo-name link">Home Accessories</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-car-auto.html" class="demo-img">
+                            <a href="home-car-auto.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-car-auto.jpg" data-src="images/demo/home-car-auto.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-car-auto.html" class="demo-name link">Home Car Auto</a>
+                            <a href="home-car-auto.php" class="demo-name link">Home Car Auto</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-travel.html" class="demo-img">
+                            <a href="home-travel.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-travel.jpg" data-src="images/demo/home-travel.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-travel.html" class="demo-name link">Home Travel</a>
+                            <a href="home-travel.php" class="demo-name link">Home Travel</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-watch.html" class="demo-img">
+                            <a href="home-watch.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-watch.jpg" data-src="images/demo/home-watch.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-watch.html" class="demo-name link">Home Watch</a>
+                            <a href="home-watch.php" class="demo-name link">Home Watch</a>
                         </div>
                     </div>
                 </div>
@@ -1295,7 +1273,5 @@
     <!-- /Demo -->
  <?php include 'includes/footer.php'; ?>
 </body>
-
-
-<!-- Mirrored from ochaka.vercel.app/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 09:57:25 GMT -->
+<!-- Mirrored from ochaka.vercel.app/checkout.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 09:57:25 GMT -->
 </html>

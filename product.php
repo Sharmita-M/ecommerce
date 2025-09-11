@@ -1138,7 +1138,7 @@
                                     ?>
                         <div class="card-product grid" data-availability="In stock" data-brand="fisoew">
                             <div class="card-product_wrapper">
-                                <a href="product-detail.php" class="product-img">
+                                <a href="product-detail.php?product=<?= $row->slug?>" class="product-img">
                                     <img class="lazyload img-product" src="admin/uploads/products/<?= $row->product_image;?>" data-src="admin/uploads/products/<?= $row->product_image;?>"
                                         alt="Product">
                                     <img class="lazyload img-hover" src="admin/uploads/products/<?= $row->product_image;?>" data-src="admin/uploads/products/<?= $row->product_image;?>"
