@@ -17,41 +17,42 @@
         </section>
         <!-- /Page Title -->
         <!-- Check Out -->
+          <form class="tf-checkout-cart-main" action="admin/manage/manage-checkout.php" method="POST" enctype="multipart/form-data">
         <section class="flat-spacing">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="tf-page-checkout mb-lg-0">
                             <div class="wrap-coupon">
-                                <h5 class="mb-12">Have a coupon? <span class="text-primary">Enter your code</span></h5>
-                                <form>
+                                <!-- <h5 class="mb-12">Have a coupon? <span class="text-primary">Enter your code</span></h5>
+                              
                                     <div class="ip-discount-code mb-0">
                                         <input type="text" placeholder="Enter your code" required>
                                         <button class="tf-btn animate-btn" type="submit" name="apply_code" >
                                             Apply Code
                                         </button>
                                     </div>
-                                </form>
+                                -->
                             </div>
-                            <form class="tf-checkout-cart-main">
+                           
                                 <div class="box-ip-checkout estimate-shipping">
-                                    <form action="admin/manage/manage-checkout.php" method="POST" enctype="multipart/form-data">
+                                   
                                     <h2 class="title type-semibold">Infomation</h2>
                                     <div class="form_content">
                                         <div class="cols tf-grid-layout sm-col-2">
                                             <fieldset>
-                                                <input type="text" name="first_name_infor" placeholder="First name" required>
+                                                <input type="text" name="first_name_infor" placeholder="First name" >
                                             </fieldset>
                                             <fieldset>
-                                                <input type="text" name="last_name_infor" placeholder="Last name" required>
+                                                <input type="text" name="last_name_infor" placeholder="Last name" >
                                             </fieldset>
                                         </div>
                                         <div class="cols tf-grid-layout sm-col-2">
                                             <fieldset>
-                                                <input type="email" name="email_infor" placeholder="Email address" required>
+                                                <input type="email" name="email_infor" placeholder="Email address" >
                                             </fieldset>
                                             <fieldset>
-                                                <input type="tel" maxlength="10" minlength="10" name="phone_infor" placeholder="Phone number" required>
+                                                <input type="tel" maxlength="10" minlength="10" name="phone_infor" placeholder="Phone number" >
                                             </fieldset>
                                         </div>
                                         <fieldset>
@@ -76,7 +77,10 @@
                                                     <option value="United Kingdom"
                                                         data-provinces='[["England","England"],["Scotland","Scotland"],["Wales","Wales"],["Northern Ireland","Northern Ireland"]]'>
                                                         United Kingdom</option>
-                                                    <option value="India" data-provinces='[]'>India</option>
+                                                    <option value="India" data-provinces='[["Andhra Pradesh","Andhra Pradesh"],["Bihar","Bihar"],["Chhattisgarh","Chhattisgarh"],["Delhi","Delhi"],["Goa","Goa"],
+                                                    ["Gujarat","Gujarat"],["Haryana","Haryana"],["Jharkhand","Jharkhand"],["Karnataka","Karnataka"],["Kerala","Kerala"], ["Madhya Pradesh","Madhya Pradesh"],["Maharashtra","Maharashtra"],
+                                                    ["Odisha","Odisha"],["Punjab","Punjab"],["Rajasthan","Rajasthan"],["Tamil Nadu","Tamil Nadu"],["Telangana","Telangana"],["Uttar Pradesh","Uttar Pradesh"],["Uttarakhand","Uttarakhand"],["West Bengal","West Bengal"]
+                                                    ]'>India</option>
                                                     <option value="Japan" data-provinces='[]'>Japan</option>
                                                     <option value="Mexico" data-provinces='[]'>Mexico</option>
                                                     <option value="South Korea" data-provinces='[]'>South Korea</option>
@@ -90,10 +94,10 @@
                                         </fieldset>
                                         <div class="cols tf-grid-layout sm-col-2">
                                             <fieldset>
-                                                <input type="text" name="city_infor" placeholder="Town/City" required>
+                                                <input type="text" name="city_infor" placeholder="Town/City" >
                                             </fieldset>
                                             <fieldset>
-                                                <input type="text" name="street_infor" placeholder="Street" required>
+                                                <input type="text" name="street_infor" placeholder="Street" >
                                             </fieldset>
                                         </div>
                                         <div class="cols tf-grid-layout sm-col-2">
@@ -101,24 +105,40 @@
                                                 <div class="tf-select">
                                                     <select id="shipping-province-form" name="address_province" data-default="">
                                                         <option selected disabled value="">Choose State</option>
+                                            
                                                     </select>
                                                 </div>
                                             </fieldset>
                                             <fieldset>
-                                                <input type="number" name="number_card" placeholder="Postal code" required>
+                                                <input type="number" name="pincode" placeholder="Postal code" >
                                             </fieldset>
                                         </div>
                                         <textarea name="description" placeholder="Note about your order" style="height: 180px;"></textarea>
                                     </div>
-                                     <button class="tf-btn animate-btn mt-3" type="submit" name="submit" value="action">
+                                     <button class="tf-btn animate-btn mt-3" type="submit" name="action" value="submit">
                                            Save Adress
                                         </button>
                                 </div>
+                                
+                                <?php
+$result = $db->query("SELECT * FROM adress  ");
+while($row = $result->fetch_object()){
+?>
+<label for="express" class="check-ship w-100">
+    <input type="radio" id="express" name="adress" value="<?= $row->ad_id?>" class="tf-check-rounded style-2 line-black">
+     <span class="">Choose Adress</span> <br>
+     <div>
+        <p class="mb-1"><strong><?= $row->first_name?> <?= $row->last_name?></strong>, <?= $row->street?>, <?= $row->city?>, <?= $row->state?>, <?= $row->country?> - <?= $row->pincode?></p>
+        <p class="mb-0">Phone: +91 <?= $row->mobile?></p>
+        </div>
+        <!-- <span class="price fw-medium d-block mt-2 text-primary">$5.00</span> -->
+</label>
+<?php } ?>                   
                                 <div class="box-ip-payment">
                                     <h2 class="title type-semibold">Choose Payment Option</h2>
                                     <div class="payment-method-box" id="payment-method-box">
                                         <div class="payment_accordion">
-                                            <label for="direct" class="payment_check checkbox-wrap " data-bs-toggle="collapse"
+                                            <!-- <label for="direct" class="payment_check checkbox-wrap " data-bs-toggle="collapse"
                                                 data-bs-target="#direct-bank" aria-controls="direct-bank">
                                                 <input type="radio" name="payment-method" class="tf-check-rounded style-2" id="direct" checked>
                                                 <span class="pay-title">Direct bank transfer</span>
@@ -129,14 +149,14 @@
                                                     reference.
                                                     Your order will not be shipped until the funds have cleared in our account.
                                                 </p>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="payment_accordion">
-                                            <label for="credit-card" class="payment_check checkbox-wrap" data-bs-toggle="collapse"
+                                            <!-- <label for="credit-card" class="payment_check checkbox-wrap" data-bs-toggle="collapse"
                                                 data-bs-target="#credit-card-payment" aria-controls="credit-card-payment">
                                                 <input type="radio" name="payment-method" class="tf-check-rounded style-2" id="credit-card">
                                                 <span class="pay-title">Credit card</span>
-                                            </label>
+                                            </label> -->
                                             <div id="credit-card-payment" class="collapse" data-bs-parent="#payment-method-box">
                                                 <div class="payment_body form_content">
                                                     <fieldset>
@@ -168,7 +188,7 @@
                                         <div class="payment_accordion">
                                             <label for="cash-on" class="payment_check checkbox-wrap" data-bs-toggle="collapse"
                                                 data-bs-target="#cash-on-payment" aria-controls="cash-on-payment">
-                                                <input type="radio" name="payment-method" class="tf-check-rounded style-2" id="cash-on">
+                                                <input type="radio" name="payment-method" value="cod" class="tf-check-rounded style-2" id="cash-on">
                                                 <span class="pay-title">Cash On Delivery</span>
                                             </label>
                                             <div id="cash-on-payment" class="collapse" data-bs-parent="#payment-method-box"></div>
@@ -176,13 +196,12 @@
                                         <div class="payment_accordion">
                                             <label for="paypal" class="payment_check checkbox-wrap" data-bs-toggle="collapse"
                                                 data-bs-target="#paypal-payment" aria-controls="paypal-payment">
-                                                <input type="radio" name="payment-method" class="tf-check-rounded style-2" id="paypal">
-                                                <span class="pay-title">Paypal</span>
+                                                <input type="radio" name="payment-method" value="upi" class="tf-check-rounded style-2" id="paypal">
+                                                <span class="pay-title">UPI</span>
                                             </label>
                                             <div id="paypal-payment" class="collapse" data-bs-parent="#payment-method-box"></div>
                                         </div>
                                     </div>
-                                    </form>
                                     <p class="h6 mb-20">
                                         Your personal data will be used to process your order, support your experience throughout this website, and
                                         for
@@ -194,6 +213,9 @@
                                                 conditions *</span></label>
                                     </div>
                                 </div>
+
+  
+
                                 <div class="box-ip-shipping">
                                     <h2 class="title type-semibold">Shipping Method</h2>
                                     <label for="freeship" class="check-ship mb-12">
@@ -212,11 +234,12 @@
                                     </label>
                                 </div>
                                 <div class="button_submit">
-                                    <button type="submit" class="tf-btn animate-btn w-100">
-                                        Payment
+                                    <button type="submit" name="action" value="checkout" class="tf-btn animate-btn w-100">
+                                        Place Order
                                     </button>
+                                      
                                 </div>
-                            </form>
+                        
                         </div>
                     </div>
                     <div class="col-lg-5">
@@ -234,6 +257,7 @@
                                      $item_total = $cart->product_selling_price * $cart->qty;
                                         $total += $item_total;
                                     ?>
+                                    <input type="hidden" name="cart_id[]" value="<?= $cart->ct_id ?>">
                                     <li class="order-item">
                                         <a href="product-detail.php?p_id=<?= $cart->p_id ?>" class="img-prd">
                                             <img class="lazyload" src="admin/uploads/products/<?= $cart->product_image ?>"  data-src="admin/uploads/products/<?= $cart->product_image ?>"
@@ -272,9 +296,11 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
+            </form>
         <!-- /Check Out -->
     </div>
 
