@@ -1,4 +1,16 @@
-<?php include 'includes/header.php'; ?>
+<?php include 'includes/header.php'; 
+
+if (isset($_GET['checkout'])) {
+    if (!isset($_SESSION['u_id'])) {
+        header("Location: login.php");
+        exit();
+    } else {
+        header("Location: checkout.php");
+        exit();
+    }
+}
+?>
+
 
         <!-- Page Title -->
         <section class="s-page-title">
@@ -57,12 +69,22 @@
                                 </thead>
                                 <tbody>
                                        <?php 
-                            $c_data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
-                                                FROM cart
-                                                LEFT JOIN product ON cart.p_id = product.id
-                                                ORDER BY cart.ct_id DESC ");
-                                while($cart = $c_data->fetch_object()){ 
-                                    ?>
+                           $discount_code = "";
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['discount_code'])) {
+    $discount_code = trim($_POST['discount_code']);
+}
+
+// Calculate cart total
+$total = 0;
+$data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
+    FROM cart
+    LEFT JOIN product ON cart.p_id = product.id
+    ORDER BY cart.ct_id DESC ");
+while($cart = $data->fetch_object()){
+    $item_total = $cart->product_selling_price * $cart->qty;
+    $total += $item_total;
+?>
+
                                     <tr class="tf-cart_item each-prd file-delete">
                                         <td>
                                             <div class="cart_product">
@@ -74,6 +96,7 @@
                                                     <h6 class="prd_name">
                                                         <a href="product-detail.php" class="link">
                                                             <?= $cart->product_name;?>
+                                                  
                                                         </a>
                                                     </h6>
                                                     <div class="prd_select text-small">
@@ -109,10 +132,8 @@
                                              <a href="admin/manage/manage-cart.php?action=delete&id=<?= $cart->ct_id?>"><i class="icon icon-close"></i></a>
                                         </td>
                                     </tr>
-                                    <?php }; ?>
-                                    
-                                   
-                                 
+                                    <?php } ?>
+                                
                                 </tbody>
                             </table>
                             <div class="ip-discount-code">
@@ -126,7 +147,7 @@
                                     <div class="discount-top">
                                         <div class="discount-off">
                                             <p class="h6">Discount</p>
-                                            <h6 class="sale-off h6 fw-bold">30% OFF</h6>
+                                            <h6 class="sale-off h6 fw-bold">15% OFF</h6>
                                         </div>
                                         <div class="discount-from">
                                             <p class="h6">
@@ -145,7 +166,7 @@
                                     <div class="discount-top">
                                         <div class="discount-off">
                                             <p class="h6">Discount</p>
-                                            <h6 class="sale-off h6 fw-bold">15% OFF</h6>
+                                            <h6 class="sale-off h6 fw-bold">10% OFF</h6>
                                         </div>
                                         <div class="discount-from">
                                             <p class="h6">
@@ -155,9 +176,14 @@
                                     </div>
                                     <div class="discount-bot">
                                         <h6>Code: <span class="coupon-code">SliVox</span></h6>
-                                        <button class="tf-btn coupon-copy-wrap h6" type="button">
-                                            Apply Code
-                                        </button>
+                                       <form method="POST" action="view-cart.php">
+    <div class="ip-discount-code">
+        <input type="text" name="discount_code" placeholder="Add voucher discount" value="">
+        <button class="tf-btn coupon-copy-wrap h6" type="submit">
+            Apply Code
+        </button>
+    </div>
+</form>
                                     </div>
                                 </div>
                                 <div class="box-discount">
@@ -182,17 +208,21 @@
                             </div>
                         </form>
                     </div>
+  
+
+                                  
                     <div class="col-xxl-3 col-xl-4">
                         <div class="fl-sidebar-cart bg-white-smoke sticky-top">
                             <div class="box-order-summary">
                                 <h4 class="title fw-semibold">Order Summary</h4>
                                 <div class="subtotal h6 text-button d-flex justify-content-between align-items-center">
                                     <h6 class="fw-bold">Subtotal</h6>
-                                    <span class="total">-$80.00</span>
+                                    <span class="total">$</span>
                                 </div>
+                                
                                 <div class="discount  text-button d-flex justify-content-between align-items-center">
-                                    <h6 class="fw-bold">Discounts</h6>
-                                    <span class="total h6">-$80.00</span>
+                                    <h6 class="fw-bold">Discount</h6>
+                                    <span class="total h6">-$</span>
                                 </div>
                                 <div class="ship">
                                     <h6 class="fw-bold">Shipping</h6>
@@ -222,14 +252,14 @@
                                 </div>
                                 <h5 class="total-order d-flex justify-content-between align-items-center">
                                     <span>Total</span>
-                                    <span class="total each-total-price">$186,99</span>
+                                    <span class="total each-total-price">hgfcb</span>
                                 </h5>
                                 <div class="list-ver">
-                                    <a href="checkout.php" class="tf-btn w-100 animate-btn">
+                                    <a href="view-cart.php?checkout=1" id="proceedCheckout" class="tf-btn w-100 animate-btn">
                                         Process to checkout
                                         <i class="icon icon-arrow-right"></i>
                                     </a>
-                                    <a href="shop-default.php" class="tf-btn btn-white animate-btn animate-dark w-100">
+                                    <a href="product.php" class="tf-btn btn-white animate-btn animate-dark w-100">
                                         Continue shopping
                                         <i class="icon icon-arrow-right"></i>
                                     </a>
@@ -918,14 +948,14 @@
     </div>
     <!-- /Search -->
     <!-- Shopping Cart -->
-    <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
+  <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
      
         <div class="canvas-wrapper">
             <div class="popup-header">
                 <span class="title fw-semibold h4">Shopping cart</span>
                 <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas"></span>
             </div>
-            <div class="wrap">
+             <div class="wrap">
                 <div class="tf-mini-cart-wrap list-file-delete wrap-empty_text">
                     <div class="tf-mini-cart-main">
                         <div class="tf-mini-cart-sroll">
@@ -941,7 +971,7 @@
                                         </p>
                                     </div>
                                     <div class="shop-empty_bot">
-                                        <a href="product.php" class="tf-btn animate-btn">
+                                        <a href="shop-default.php" class="tf-btn animate-btn">
                                             Shopping
                                         </a>
                                         <a href="index.php" class="tf-btn style-line">
@@ -949,10 +979,37 @@
                                         </a>
                                     </div>
                                 </div>
-                             
-                             
-                                    
-                        
+                                              <?php 
+                            $c_data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
+                                                FROM cart
+                                                LEFT JOIN product ON cart.p_id = product.id
+                                                ORDER BY cart.ct_id DESC ");
+                                while($cart = $c_data->fetch_object()){ 
+                                    ?>
+                                <div class="tf-mini-cart-item file-delete">
+                                    <div class="tf-mini-cart-image">
+                                        <img class="lazyload" data-src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>"" src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>""
+                                            alt="img-product">
+                                    </div>
+                                    <div class="tf-mini-cart-info">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <!-- <div class="text-small text-main-2 sub">T-shirt</div> -->
+                                        <h6 class="title">
+                                            <a href="product-detail.php" class="link text-line-clamp-1"><?=$cart-> product_name?></a>
+                                        </h6>
+                                              <i class="icon link icon-close remove "></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="h6 fw-semibold">
+                                                <span class="number">x <?=$cart-> qty?></span>
+                                                <span class="price text-primary tf-mini-card-price">$<?=$cart-> product_selling_price?></span>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                              
                                 </div>
                             </div>
                         </div>
@@ -1235,10 +1292,7 @@
             </div>
         </div>
     </div>
-    <!-- /Demo -->
+
  <?php include 'includes/footer.php'; ?>
 </body>
-
-
-<!-- Mirrored from ochaka.vercel.app/view-cart.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 09:57:23 GMT -->
 </html>

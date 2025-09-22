@@ -144,6 +144,9 @@ endif;
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php $data = $db->query("SELECT * FROM order_data ORDER BY ord_id DESC LIMIT 5 ");
+                                                while ($row = $data->fetch_object()) { 
+                                            ?>
                                             <tr class="tb-order-item">
                                                 <td class="tb-order_code">#12840629</td>
                                                 <td>
@@ -171,141 +174,7 @@ endif;
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr class="tb-order-item">
-                                                <td class="tb-order_code">#12870127</td>
-                                                <td>
-                                                    <div class="tb-order_product">
-                                                        <a href="product-detail.html" class="img-prd">
-                                                            <img class="lazyload" src="images/products/product-33.jpg"
-                                                                data-src="images/products/product-33.jpg" alt="T Shirt">
-                                                        </a>
-                                                        <div class="infor-prd">
-                                                            <h6>
-                                                                <a href="product-detail.html" class="prd_name link">
-                                                                    Nike Sportswear Tee Shirts
-                                                                </a>
-                                                            </h6>
-                                                            <p class="prd_select text-small">
-                                                                Clothing <span>Size: L</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="tb-order_price">$55.89</td>
-                                                <td>
-                                                    <div class="tb-order_status stt-pending">
-                                                        Pending
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tb-order-item">
-                                                <td class="tb-order_code">#12870345</td>
-                                                <td>
-                                                    <div class="tb-order_product">
-                                                        <a href="product-detail.html" class="img-prd">
-                                                            <img class="lazyload" src="images/products/product-36.jpg"
-                                                                data-src="images/products/product-36.jpg" alt="T Shirt">
-                                                        </a>
-                                                        <div class="infor-prd">
-                                                            <h6>
-                                                                <a href="product-detail.html" class="prd_name link">
-                                                                    Women's straight leg pants
-                                                                </a>
-                                                            </h6>
-                                                            <p class="prd_select text-small">
-                                                                Clothing <span>Size: XL</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="tb-order_price">$25.79</td>
-                                                <td>
-                                                    <div class="tb-order_status stt-delivery">
-                                                        Delivery
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tb-order-item">
-                                                <td class="tb-order_code">#12870789</td>
-                                                <td>
-                                                    <div class="tb-order_product">
-                                                        <a href="product-detail.html" class="img-prd">
-                                                            <img class="lazyload" src="images/products/underwear/product-15.jpg"
-                                                                data-src="images/products/underwear/product-15.jpg" alt="Bikini">
-                                                        </a>
-                                                        <div class="infor-prd">
-                                                            <h6>
-                                                                <a href="product-detail.html" class="prd_name link">
-                                                                    Short sleeve office shirt
-                                                                </a>
-                                                            </h6>
-                                                            <p class="prd_select text-small">
-                                                                Clothing <span>Size: M</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="tb-order_price">$99.99</td>
-                                                <td>
-                                                    <div class="tb-order_status stt-cancel">
-                                                        Canceled
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tb-order-item">
-                                                <td class="tb-order_code">#12870808</td>
-                                                <td>
-                                                    <div class="tb-order_product">
-                                                        <a href="product-detail.html" class="img-prd">
-                                                            <img class="lazyload" src="images/products/product-55.jpg"
-                                                                data-src="images/products/product-55.jpg" alt="T Shirt">
-                                                        </a>
-                                                        <div class="infor-prd">
-                                                            <h6>
-                                                                <a href="product-detail.html" class="prd_name link">
-                                                                    Loose V-neck T-shirt
-                                                                </a>
-                                                            </h6>
-                                                            <p class="prd_select text-small">
-                                                                Clothing <span>Size: XL</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="tb-order_price">$52.99</td>
-                                                <td>
-                                                    <div class="tb-order_status stt-complete">
-                                                        Completed
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tb-order-item">
-                                                <td class="tb-order_code">#12870231</td>
-                                                <td>
-                                                    <div class="tb-order_product">
-                                                        <a href="product-detail.html" class="img-prd">
-                                                            <img class="lazyload" src="images/products/underwear/product-50.jpg"
-                                                                data-src="images/products/underwear/product-50.jpg" alt="Bikini">
-                                                        </a>
-                                                        <div class="infor-prd">
-                                                            <h6>
-                                                                <a href="product-detail.html" class="prd_name link">
-                                                                    Fashionable workout tops
-                                                                </a>
-                                                            </h6>
-                                                            <p class="prd_select text-small">
-                                                                Clothing <span>Size: XS</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="tb-order_price">$89.99</td>
-                                                <td>
-                                                    <div class="tb-order_status stt-cancel">
-                                                        Canceled
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                          <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1020,14 +889,14 @@ endif;
     </div>
     <!-- /Search -->
    <!-- Shopping Cart -->
-    <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
+  <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
      
         <div class="canvas-wrapper">
             <div class="popup-header">
                 <span class="title fw-semibold h4">Shopping cart</span>
                 <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas"></span>
             </div>
-            <div class="wrap">
+             <div class="wrap">
                 <div class="tf-mini-cart-wrap list-file-delete wrap-empty_text">
                     <div class="tf-mini-cart-main">
                         <div class="tf-mini-cart-sroll">
@@ -1043,7 +912,7 @@ endif;
                                         </p>
                                     </div>
                                     <div class="shop-empty_bot">
-                                        <a href="product.php" class="tf-btn animate-btn">
+                                        <a href="shop-default.php" class="tf-btn animate-btn">
                                             Shopping
                                         </a>
                                         <a href="index.php" class="tf-btn style-line">
@@ -1051,10 +920,37 @@ endif;
                                         </a>
                                     </div>
                                 </div>
-                             
-                             
-                                    
-                        
+                                              <?php 
+                            $c_data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
+                                                FROM cart
+                                                LEFT JOIN product ON cart.p_id = product.id
+                                                ORDER BY cart.ct_id DESC ");
+                                while($cart = $c_data->fetch_object()){ 
+                                    ?>
+                                <div class="tf-mini-cart-item file-delete">
+                                    <div class="tf-mini-cart-image">
+                                        <img class="lazyload" data-src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>"" src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>""
+                                            alt="img-product">
+                                    </div>
+                                    <div class="tf-mini-cart-info">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <!-- <div class="text-small text-main-2 sub">T-shirt</div> -->
+                                        <h6 class="title">
+                                            <a href="product-detail.php" class="link text-line-clamp-1"><?=$cart-> product_name?></a>
+                                        </h6>
+                                              <i class="icon link icon-close remove "></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="h6 fw-semibold">
+                                                <span class="number">x <?=$cart-> qty?></span>
+                                                <span class="price text-primary tf-mini-card-price">$<?=$cart-> product_selling_price?></span>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                              
                                 </div>
                             </div>
                         </div>

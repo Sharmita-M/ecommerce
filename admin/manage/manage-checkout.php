@@ -53,17 +53,28 @@ switch($submit){
             $od_id = $odData->od_id;
             $db->query("INSERT INTO `order_data` (od_id,order_id, ct_id, p_id, price, delivery_details, create_at) VALUES ('$od_id','$order_id', '$cart_id', '$p_id', '$total_price','$address', '$datetime')");
         }
+
     if (empty($address)) {
-        die("Please select an address.");
-    }
+       
+        $_SESSION['errorMsg'] = 'Please select an address.';
+        $_SESSION['errorStatus'] = 'danger';
+
+        header("Location: ../../checkout.php?select-adress");
+        exit;
+    } 
+
     if ($payment == "cod") {
-        header("Location: ../../checkout.php?order-success");
+        header("Location: ../../sucess.php?order_id=$order_id");
     } elseif ($payment == "upi") {
         header("Location: ../../upi-payment.php?order_id=$order_id");
         
         exit;
     } else {
-        echo "Please select a payment option.";
+        $_SESSION['errorMsg'] = 'Please select an payment option.';
+        $_SESSION['errorStatus'] = 'danger';
+
+        header("Location: ../../checkout.php?select-payment-option");
+        exit;
     }
     break;
 }

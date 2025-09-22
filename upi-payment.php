@@ -1,3 +1,4 @@
+<?php session_start();  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,12 +17,13 @@
           <div class="card-header bg-primary text-white text-center rounded-top-4">
             <h4 class="mb-0">💳 Razorpay Test Payment</h4>
           </div>
+          
           <div class="card-body p-4">
             
-            <!-- Amount field (₹) -->
+    
             <div class="mb-3">
               <label for="amountInr" class="form-label fw-semibold">Amount (INR)</label>
-              <input id="amountInr" type="number" min="1" value="99" class="form-control form-control-lg">
+              <input id="amountInr" type="number" min="1" value="<?php echo isset($_SESSION['cart_total']) ? $_SESSION['cart_total'] : ''; ?>" disabled class="form-control form-control-lg">
             </div>
 
             <!-- Pay button -->
@@ -30,6 +32,9 @@
                 Pay with Razorpay
               </button>
             </div>
+         <div class="card-footer text-center small text-muted">
+            <a href="checkout.php">return to checkout</a>
+          </div>
 
           </div>
           <div class="card-footer text-center small text-muted">
@@ -75,8 +80,8 @@
           // response.razorpay_payment_id
           // response.razorpay_order_id (if supplied)
           // response.razorpay_signature (if supplied)
-          alert("Payment successful!\nPayment ID: " + response.razorpay_payment_id);
-
+          //alert("Payment successful!\nPayment ID: " + response.razorpay_payment_id);
+          window.location.href = 'sucess.php?payment_id=' + response.razorpay_payment_id;
           // ⚠ IMPORTANT: For real usage, POST these values to your server and
           // verify the signature using your Key Secret on the backend.
         },

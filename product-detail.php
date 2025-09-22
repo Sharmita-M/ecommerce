@@ -3446,14 +3446,14 @@ $extra_images = $db->query("
     </div>
     <!-- /Search -->
     <!-- Shopping Cart -->
-    <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
+ <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
      
         <div class="canvas-wrapper">
             <div class="popup-header">
                 <span class="title fw-semibold h4">Shopping cart</span>
                 <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas"></span>
             </div>
-            <div class="wrap">
+             <div class="wrap">
                 <div class="tf-mini-cart-wrap list-file-delete wrap-empty_text">
                     <div class="tf-mini-cart-main">
                         <div class="tf-mini-cart-sroll">
@@ -3469,7 +3469,7 @@ $extra_images = $db->query("
                                         </p>
                                     </div>
                                     <div class="shop-empty_bot">
-                                        <a href="product.php" class="tf-btn animate-btn">
+                                        <a href="shop-default.php" class="tf-btn animate-btn">
                                             Shopping
                                         </a>
                                         <a href="index.php" class="tf-btn style-line">
@@ -3477,10 +3477,37 @@ $extra_images = $db->query("
                                         </a>
                                     </div>
                                 </div>
-                             
-                             
-                                    
-                        
+                                              <?php 
+                            $c_data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
+                                                FROM cart
+                                                LEFT JOIN product ON cart.p_id = product.id
+                                                ORDER BY cart.ct_id DESC ");
+                                while($cart = $c_data->fetch_object()){ 
+                                    ?>
+                                <div class="tf-mini-cart-item file-delete">
+                                    <div class="tf-mini-cart-image">
+                                        <img class="lazyload" data-src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>"" src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>""
+                                            alt="img-product">
+                                    </div>
+                                    <div class="tf-mini-cart-info">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <!-- <div class="text-small text-main-2 sub">T-shirt</div> -->
+                                        <h6 class="title">
+                                            <a href="product-detail.php" class="link text-line-clamp-1"><?=$cart-> product_name?></a>
+                                        </h6>
+                                              <i class="icon link icon-close remove "></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="h6 fw-semibold">
+                                                <span class="number">x <?=$cart-> qty?></span>
+                                                <span class="price text-primary tf-mini-card-price">$<?=$cart-> product_selling_price?></span>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                              
                                 </div>
                             </div>
                         </div>

@@ -32,14 +32,12 @@
         $db->query("UPDATE `cart` SET `qty` = `qty` + $qty WHERE `p_id` = '$p_id' AND `session_id` = '$session_id'");
     } else {
         // Insert new
-        $db->query("INSERT INTO `cart` (`ct_id`, `p_id`, `session_id`, `price`, `qty`, `status`, `create_at`) VALUES (NULL, '$p_id', '$session_id', '$price', '$qty', '1', '$datetime')");
+        $db->query("INSERT INTO `cart` (`ct_id`, `p_id`, `session_id`, `price`, `qty`, `status`, `create_at`) VALUES (NULL, '$p_id', '$session_id', '$price', '$qty', '0', '$datetime')");
     }
    
     header("Location: ../../view-cart.php");
     exit;
     break;
-   
-   
     case 'delete':
             $ct_id = mysqli_real_escape_string($db, $_REQUEST['id']);
             $deleted = $db->query(" DELETE FROM `cart` WHERE `ct_id` = '$ct_id'");

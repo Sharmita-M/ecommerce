@@ -1,4 +1,22 @@
-<?php include 'includes/header.php'; ?>
+<?php include 'includes/header.php'; 
+if (!isset($_SESSION['u_id'])) {
+    echo "<script>window.location.href = 'login.php'</script>";
+
+}
+
+if (!empty($_SESSION['errorMsg'])):
+    $alertClass = $_SESSION['errorStatus'] === 'success' ? 'alert-success' : 'alert-danger';
+?>
+<div id="sessionAlert" class="alert <?= $alertClass ?> alert-dismissible fade show position-absolute top-0 start-0 w-100 text-center z-3" role="alert">
+  <?= $_SESSION['errorMsg']; ?>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php
+    unset($_SESSION['errorMsg'], $_SESSION['errorStatus']);
+endif;
+  
+  ?>
+
 
         <!-- Page Title -->
         <section class="s-page-title">
@@ -208,7 +226,7 @@ while($row = $result->fetch_object()){
                                         other purposes described in our privacy policy.
                                     </p>
                                     <div class="checkbox-wrap">
-                                        <input id="agree" type="checkbox" class="tf-check style-2">
+                                        <input id="agree" type="checkbox" class="tf-check style-2" required>
                                         <label for="agree" class="h6">I have read and agree to the website <span class="text-primary">terms and
                                                 conditions *</span></label>
                                     </div>
@@ -277,7 +295,8 @@ while($row = $result->fetch_object()){
                                              $<?= $cart->product_selling_price ?> x <?= $cart->qty ?>
                                         </p>
                                     </li>
-                                  <?php } ?>
+                                  <?php } $_SESSION['cart_total'] = $total;?>
+                                  
                                 </ul>
                                 <ul class="list-total">
                                     <li class="total-item h6">
@@ -979,14 +998,14 @@ while($row = $result->fetch_object()){
     </div>
     <!-- /Search -->
    <!-- Shopping Cart -->
-    <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
+  <div class="offcanvas offcanvas-end popup-shopping-cart" id="shoppingCart">
      
         <div class="canvas-wrapper">
             <div class="popup-header">
                 <span class="title fw-semibold h4">Shopping cart</span>
                 <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas"></span>
             </div>
-            <div class="wrap">
+             <div class="wrap">
                 <div class="tf-mini-cart-wrap list-file-delete wrap-empty_text">
                     <div class="tf-mini-cart-main">
                         <div class="tf-mini-cart-sroll">
@@ -1002,7 +1021,7 @@ while($row = $result->fetch_object()){
                                         </p>
                                     </div>
                                     <div class="shop-empty_bot">
-                                        <a href="product.php" class="tf-btn animate-btn">
+                                        <a href="shop-default.php" class="tf-btn animate-btn">
                                             Shopping
                                         </a>
                                         <a href="index.php" class="tf-btn style-line">
@@ -1010,10 +1029,37 @@ while($row = $result->fetch_object()){
                                         </a>
                                     </div>
                                 </div>
-                             
-                             
-                                    
-                        
+                                              <?php 
+                            $c_data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
+                                                FROM cart
+                                                LEFT JOIN product ON cart.p_id = product.id
+                                                ORDER BY cart.ct_id DESC ");
+                                while($cart = $c_data->fetch_object()){ 
+                                    ?>
+                                <div class="tf-mini-cart-item file-delete">
+                                    <div class="tf-mini-cart-image">
+                                        <img class="lazyload" data-src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>"" src="admin/uploads/products/<?= $cart->product_image;?>" data-src="admin/uploads/products/<?= $cart->product_image;?>""
+                                            alt="img-product">
+                                    </div>
+                                    <div class="tf-mini-cart-info">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <!-- <div class="text-small text-main-2 sub">T-shirt</div> -->
+                                        <h6 class="title">
+                                            <a href="product-detail.php" class="link text-line-clamp-1"><?=$cart-> product_name?></a>
+                                        </h6>
+                                              <i class="icon link icon-close remove "></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="h6 fw-semibold">
+                                                <span class="number">x <?=$cart-> qty?></span>
+                                                <span class="price text-primary tf-mini-card-price">$<?=$cart-> product_selling_price?></span>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                              
                                 </div>
                             </div>
                         </div>
