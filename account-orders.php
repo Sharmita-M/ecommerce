@@ -1,4 +1,21 @@
-<?php include 'includes/header.php'; ?>
+<?php include 'includes/header.php'; 
+
+if (!isset($_SESSION['u_id'])) {
+    echo "<script>window.location.replace('login.php');</script>";
+};
+if (!empty($_SESSION['errorMsg'])):
+    $alertClass = $_SESSION['errorStatus'] === 'success' ? 'alert-success' : 'alert-danger';
+?>
+<div id="sessionAlert" class="alert <?= $alertClass ?> alert-dismissible fade show position-absolute top-0 start-0 w-100 text-center z-3" role="alert">
+  <?= $_SESSION['errorMsg']; ?>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php
+    unset($_SESSION['errorMsg'], $_SESSION['errorStatus']);
+endif;
+
+?>
+
 
         <!-- Page Title -->
         <section class="s-page-title">
@@ -6,7 +23,7 @@
                 <div class="content">
                     <h1 class="title-page">My Account</h1>
                     <ul class="breadcrumbs-page">
-                        <li><a href="index.html" class="h6 link">Home</a></li>
+                        <li><a href="index.php" class="h6 link">Home</a></li>
                         <li class="d-flex"><i class="icon icon-caret-right"></i></li>
                         <li>
                             <h6 class="current-page fw-normal">My account</h6>
@@ -25,7 +42,12 @@
                             <div class="account-author">
                                 <div class="author_avatar">
                                     <div class="image">
-                                        <img id="imgDash" class="lazyload" src="images/avatar/avatar-4.jpg" data-src="images/avatar/avatar-4.jpg"
+                                        <?php
+                                        $user_query = $db->query("SELECT * FROM `user` WHERE `u_id` = '" . $_SESSION['u_id'] . "'");
+                                        $user_data = $user_query->fetch_object();
+                                       
+                                        ?>
+                                        <img class="lazyload imgDash" src="admin/uploads/profiles/<?= $user_data->image ; ?> " data-src="admin/uploads/profiles/<?= $user_data->image ; ?> "
                                             alt="Avatar">
                                     </div>
                                     <input type="file" id="fileInputDash" accept="image/*" style="display: none;">
@@ -33,12 +55,12 @@
                                         <i class="icon icon-camera"></i>
                                     </div>
                                 </div>
-                                <h4 class="author_name">Themesflat</h4>
-                                <p class="author_email h6">support@ochaka.com</p>
+                                <h4 class="author_name" id="displayName"><?php echo $user_data->name ?? 'User'; ?></h4>
+                                <p class="author_email h6"><?php echo $user_data->email ?? ''; ?></p>
                             </div>
                             <ul class="my-account-nav">
                                 <li>
-                                    <a href="account-page.html" class="my-account-nav_item h5">
+                                    <a href="account-page.php" class="my-account-nav_item h5">
                                         <i class="icon icon-circle-four"></i>
                                         Dashboard
                                     </a>
@@ -46,23 +68,23 @@
                                 <li>
                                     <p class="my-account-nav_item h5 active">
                                         <i class="icon icon-box-arrow-down"></i>
-                                        Oders
+                                        Orders
                                     </p>
                                 </li>
-                                <li>
-                                    <a href="account-addresses.html" class="my-account-nav_item h5">
+                                <!-- <li>
+                                    <a href="account-addresses.php" class="my-account-nav_item h5">
                                         <i class="icon icon-address-book"></i>
                                         My address
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a href="account-setting.html" class="my-account-nav_item h5">
+                                    <a href="account-setting.php" class="my-account-nav_item h5">
                                         <i class="icon icon-setting"></i>
                                         Setting
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="index.html" class="my-account-nav_item h5">
+                                    <a href="index.php" class="my-account-nav_item h5">
                                         <i class="icon icon-sign-out"></i>
                                         Log out
                                     </a>
@@ -85,198 +107,81 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="tb-order-item">
-                                            <td class="tb-order_code">#12840629</td>
-                                            <td>
-                                                <div class="tb-order_product">
-                                                    <a href="product-detail.html" class="img-prd">
-                                                        <img class="lazyload" src="images/products/product-10.jpg"
-                                                            data-src="images/products/product-10.jpg" alt="T Shirt">
-                                                    </a>
-                                                    <div class="infor-prd">
-                                                        <h6>
-                                                            <a href="product-detail.html" class="prd_name link">
-                                                                Short Sleeve Office Shirt
-                                                            </a>
-                                                        </h6>
-                                                        <p class="prd_select text-small">
-                                                            Clothing <span>Size: XS</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_price">$22.99</td>
-                                            <td>
-                                                <div class="tb-order_status stt-complete">
-                                                    Completed
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_action">
-                                                <a href="account-orders-detail.html" class="link fw-semibold">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="tb-order-item">
-                                            <td class="tb-order_code">#12870127</td>
-                                            <td>
-                                                <div class="tb-order_product">
-                                                    <a href="product-detail.html" class="img-prd">
-                                                        <img class="lazyload" src="images/products/product-33.jpg"
-                                                            data-src="images/products/product-33.jpg" alt="T Shirt">
-                                                    </a>
-                                                    <div class="infor-prd">
-                                                        <h6>
-                                                            <a href="product-detail.html" class="prd_name link">
-                                                                Nike Sportswear Tee Shirts
-                                                            </a>
-                                                        </h6>
-                                                        <p class="prd_select text-small">
-                                                            Clothing <span>Size: L</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_price">$55.89</td>
-                                            <td>
-                                                <div class="tb-order_status stt-pending">
-                                                    Pending
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_action">
-                                                <a href="account-orders-detail.html" class="link fw-semibold">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="tb-order-item">
-                                            <td class="tb-order_code">#12870345</td>
-                                            <td>
-                                                <div class="tb-order_product">
-                                                    <a href="product-detail.html" class="img-prd">
-                                                        <img class="lazyload" src="images/products/product-36.jpg"
-                                                            data-src="images/products/product-36.jpg" alt="T Shirt">
-                                                    </a>
-                                                    <div class="infor-prd">
-                                                        <h6>
-                                                            <a href="product-detail.html" class="prd_name link">
-                                                                Women's straight leg pants
-                                                            </a>
-                                                        </h6>
-                                                        <p class="prd_select text-small">
-                                                            Clothing <span>Size: XL</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_price">$25.79</td>
-                                            <td>
-                                                <div class="tb-order_status stt-delivery">
-                                                    Delivery
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_action">
-                                                <a href="account-orders-detail.html" class="link fw-semibold">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="tb-order-item">
-                                            <td class="tb-order_code">#12870789</td>
-                                            <td>
-                                                <div class="tb-order_product">
-                                                    <a href="product-detail.html" class="img-prd">
-                                                        <img class="lazyload" src="images/products/underwear/product-15.jpg"
-                                                            data-src="images/products/underwear/product-15.jpg" alt="Bikini">
-                                                    </a>
-                                                    <div class="infor-prd">
-                                                        <h6>
-                                                            <a href="product-detail.html" class="prd_name link">
-                                                                Short sleeve office shirt
-                                                            </a>
-                                                        </h6>
-                                                        <p class="prd_select text-small">
-                                                            Clothing <span>Size: M</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_price">$99.99</td>
-                                            <td>
-                                                <div class="tb-order_status stt-cancel">
-                                                    Canceled
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_action">
-                                                <a href="account-orders-detail.html" class="link fw-semibold">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="tb-order-item">
-                                            <td class="tb-order_code">#12870808</td>
-                                            <td>
-                                                <div class="tb-order_product">
-                                                    <a href="product-detail.html" class="img-prd">
-                                                        <img class="lazyload" src="images/products/product-55.jpg"
-                                                            data-src="images/products/product-55.jpg" alt="T Shirt">
-                                                    </a>
-                                                    <div class="infor-prd">
-                                                        <h6>
-                                                            <a href="product-detail.html" class="prd_name link">
-                                                                Loose V-neck T-shirt
-                                                            </a>
-                                                        </h6>
-                                                        <p class="prd_select text-small">
-                                                            Clothing <span>Size: XL</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_price">$52.99</td>
-                                            <td>
-                                                <div class="tb-order_status stt-complete">
-                                                    Completed
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_action">
-                                                <a href="account-orders-detail.html" class="link fw-semibold">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="tb-order-item">
-                                            <td class="tb-order_code">#12870231</td>
-                                            <td>
-                                                <div class="tb-order_product">
-                                                    <a href="product-detail.html" class="img-prd">
-                                                        <img class="lazyload" src="images/products/underwear/product-50.jpg"
-                                                            data-src="images/products/underwear/product-50.jpg" alt="Bikini">
-                                                    </a>
-                                                    <div class="infor-prd">
-                                                        <h6>
-                                                            <a href="product-detail.html" class="prd_name link">
-                                                                Fashionable workout tops
-                                                            </a>
-                                                        </h6>
-                                                        <p class="prd_select text-small">
-                                                            Clothing <span>Size: XS</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_price">$89.99</td>
-                                            <td>
-                                                <div class="tb-order_status stt-cancel">
-                                                    Canceled
-                                                </div>
-                                            </td>
-                                            <td class="tb-order_action">
-                                                <a href="account-orders-detail.html" class="link fw-semibold">
-                                                    View
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        $u_id = $_SESSION['u_id'];
+                                        $orders_query = $db->query("SELECT * FROM `order_details` WHERE `u_id` = '$u_id' ORDER BY `create_at` DESC ");
+
+                                        if ($orders_query->num_rows > 0) {
+                                            while ($order = $orders_query->fetch_object()) {
+                                                // 1. Fetch only the first product for display
+                                                $first_product_query = $db->query("
+                                                    SELECT p.product_name, p.product_image, p.slug
+                                                    FROM `order_data` od 
+                                                    JOIN `product` p ON od.p_id = p.id
+                                                    WHERE od.order_id = '{$order->order_id}'
+                                                    LIMIT 1
+                                                ");
+                                                $first_product = $first_product_query->fetch_object();
+
+                                                // 2. Fetch the total price and count for the entire order
+                                                $summary_query = $db->query("
+                                                    SELECT SUM(price) as total, COUNT(od_id) as count 
+                                                    FROM `order_data` WHERE order_id = '{$order->order_id}'
+                                                ");
+                                                $order_summary = $summary_query->fetch_object();
+                                                $total_price = $order_summary->total ?? 0;
+                                                $product_count = $order_summary->count ?? 0;
+
+                                                // Map status to class and text
+                                                $status_map = [
+                                                    '0' => ['class' => 'stt-pending', 'text' => 'Pending'],
+                                                    '1' => ['class' => 'stt-delivery', 'text' => 'Shipped'],
+                                                    '2' => ['class' => 'stt-complete', 'text' => 'Completed'],
+                                                    '3' => ['class' => 'stt-cancel', 'text' => 'Cancelled'],
+                                                ];
+                                                $status_info = $status_map[$order->order_status] ?? ['class' => 'stt-pending', 'text' => 'Pending'];
+                                        ?>
+                                                <tr class="tb-order-item">
+                                                    <td class="tb-order_code" style="min-width: 10px;"><?= htmlspecialchars($order->order_id); ?></td>
+                                                    <td >
+                                                        <?php if ($first_product) : ?>
+                                                            <div class="tb-order_product ">
+                                                                <a href="product-detail.php?product=<?= $first_product->slug; ?>" class="img-prd">
+                                                                    <img class="lazyload" src="admin/uploads/products/<?= htmlspecialchars($first_product->product_image); ?>" data-src="admin/uploads/products/<?= htmlspecialchars($first_product->product_image); ?>" alt="Product">
+                                                                </a>
+                                                                <div class="infor-prd">
+                                                                    <h6>
+                                                                        <a href="product-detail.php?product=<?= $first_product->slug; ?>" class="prd_name link">
+                                                                            <?= htmlspecialchars($first_product->product_name); ?>
+                                                                            <?php if ($product_count > 1) : ?>
+                                                                                <span class="text-small text-main-2">(and <?= $product_count - 1; ?> more)</span>
+                                                                            <?php endif; ?>
+                                                                        </a>
+                                                                    </h6>
+                                                                </div>
+                                                            </div>
+                                                        <?php else : ?>
+                                                            No products found.
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td class="tb-order_price">$<?= number_format($total_price, 2); ?></td>
+                                                    <td>
+                                                        <div class="tb-order_status <?= $status_info['class']; ?>">
+                                                            <?= $status_info['text']; ?>
+                                                        </div>
+                                                    </td>
+                                                    <td class="tb-order_action">
+                                                        <a href="account-orders-detail.php?order_id=<?= $order->order_id; ?>" class="link fw-semibold">
+                                                            View
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        } else {
+                                            echo '<tr><td colspan="5" class="text-center p-5">You have no orders yet.</td></tr>';
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -305,7 +210,7 @@
         </span>
         <div class="canvas-header">
             <p class="text-logo-mb">Ochaka.</p>
-            <a href="login.html" class="tf-btn type-small style-2">
+            <a href="login.php" class="tf-btn type-small style-2">
                 Login
                 <i class="icon icon-user"></i>
             </a>
@@ -316,7 +221,7 @@
                 <ul class="nav-ul-mb" id="wrapper-menu-navigation"></ul>
             </div>
             <div class="group-btn">
-                <a href="wishlist.html" class="tf-btn type-small style-2">
+                <a href="wishlist.php" class="tf-btn type-small style-2">
                     Wishlist
                     <i class="icon icon-heart"></i>
                 </a>
@@ -385,7 +290,7 @@
     <!-- Toolbar -->
     <div class="tf-toolbar-bottom">
         <div class="toolbar-item">
-            <a href="shop-default.html">
+            <a href="shop-default.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-storefront"></i>
                 </span>
@@ -401,7 +306,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="account-page.html">
+            <a href="account-page.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-user"></i>
                 </span>
@@ -409,7 +314,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="wishlist.html">
+            <a href="wishlist.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-heart"></i>
                     <span class="toolbar-count">7</span>
@@ -418,7 +323,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="view-cart.html">
+            <a href="view-cart.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-shopping-cart-simple"></i>
                     <span class="toolbar-count">24</span>
@@ -596,7 +501,7 @@
                         <div class="tf-compare-offcanvas list-empty">
                             <p class="box-text_empty h6 text-main">Your Compare is curently empty</p>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -605,7 +510,7 @@
                                 </a>
                             </div>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -614,7 +519,7 @@
                                 </a>
                             </div>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -624,7 +529,7 @@
                             </div>
                         </div>
                         <div class="tf-compare-buttons">
-                            <a href="compare.html" class="tf-btn animate-btn d-inline-flex bg-dark-2 justify-content-center">
+                            <a href="compare.php" class="tf-btn animate-btn d-inline-flex bg-dark-2 justify-content-center">
                                 Compare
                             </a>
                             <div class="tf-btn btn-white animate-btn animate-dark line clear-list-empty tf-compare-button-clear-all">
@@ -676,7 +581,7 @@
                 <div class="tf-product-info-wrap">
                     <div class="tf-product-info-inner tf-product-info-list">
                         <div class="tf-product-info-heading">
-                            <a href="product-detail.html" class="link product-info-name fw-medium h1">
+                            <a href="product-detail.php" class="link product-info-name fw-medium h1">
                                 Casual Round Neck T-Shirt
                             </a>
                             <div class="product-info-meta">
@@ -820,7 +725,7 @@
                                 </a>
                             </div>
                             <div class="group-btn">
-                                <a href="checkout.html" class="tf-btn btn-yellow w-100 animate-btn animate-dark">
+                                <a href="checkout.php" class="tf-btn btn-yellow w-100 animate-btn animate-dark">
                                     Pay with
                                     <span class="icon">
                                         <svg width="68" height="18" viewBox="0 0 68 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -849,7 +754,7 @@
                                 </a>
                             </div>
                         </div>
-                        <a href="product-detail.html" class="tf-btn-line text-normal letter-space-0 fw-normal">
+                        <a href="product-detail.php" class="tf-btn-line text-normal letter-space-0 fw-normal">
                             <span class="h5">View full details</span>
                             <i class="icon icon-arrow-top-right fs-24"></i>
                         </a>
@@ -873,39 +778,39 @@
                         <button type="submit" class="link"><i class="icon icon-magnifying-glass"></i></button>
                     </form>
                     <ul class="quick-link-list">
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Graphic tees</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Plain t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Vintage t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Band tees</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Custom t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Oversized t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Crew neck t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Graphic tees</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Plain t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Vintage t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Band tees</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Custom t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Oversized t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Crew neck t-shirts</a></li>
                     </ul>
                 </div>
                 <div class="view-history-wrap">
                     <h4 class="title">History</h4>
                     <div class="view-history-list">
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>High Visibility T Shirt Short Sleeve Reflective</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Short sleeve round neck t-shirt</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Fashionable oversized hoodie for women</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Queen fashion long sleeve shirt, basic t-shirt</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Lee Women's Wrinkle Free Relaxed Fit Straight Leg Pant</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Women's Summer Oversized T-Shirt Casual Office Fashion</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
@@ -928,7 +833,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">T-shirt</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Queen fashion long sleeve shirt, basic t-shirt</a>
+                                        <a href="product-detail.php" class="link">Queen fashion long sleeve shirt, basic t-shirt</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$99,99</span>
@@ -943,7 +848,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Hoodie</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Champion Reverse Weave Pullover</a>
+                                        <a href="product-detail.php" class="link">Champion Reverse Weave Pullover</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$149.99</span>
@@ -960,7 +865,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Shorts</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Columbia PFG Fishing Shirt</a>
+                                        <a href="product-detail.php" class="link">Columbia PFG Fishing Shirt</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$109.99</span>
@@ -975,7 +880,7 @@
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Sweatshirt</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Puma Essentials Graphic Tee</a>
+                                        <a href="product-detail.php" class="link">Puma Essentials Graphic Tee</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$69.99</span>
@@ -1204,131 +1109,131 @@
                 <div class="mega-menu">
                     <div class="row-demo">
                         <div class="demo-item">
-                            <a href="index.html" class="demo-img"><img src="images/demo/home-fashion-1.jpg" alt="Demo"></a>
-                            <a href="index.html" class="demo-name">Home Fashion 1</a>
+                            <a href="index.php" class="demo-img"><img src="images/demo/home-fashion-1.jpg" alt="Demo"></a>
+                            <a href="index.php" class="demo-name">Home Fashion 1</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-2.html" class="demo-img"><img src="images/demo/home-fashion-2.jpg" alt="Demo"></a>
-                            <a href="home-fashion-2.html" class="demo-name">Home Fashion 2</a>
+                            <a href="home-fashion-2.php" class="demo-img"><img src="images/demo/home-fashion-2.jpg" alt="Demo"></a>
+                            <a href="home-fashion-2.php" class="demo-name">Home Fashion 2</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-3.html" class="demo-img"><img src="images/demo/home-fashion-3.jpg" alt="Demo"></a>
-                            <a href="home-fashion-3.html" class="demo-name">Home Fashion 3</a>
+                            <a href="home-fashion-3.php" class="demo-img"><img src="images/demo/home-fashion-3.jpg" alt="Demo"></a>
+                            <a href="home-fashion-3.php" class="demo-name">Home Fashion 3</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-4.html" class="demo-img"><img src="images/demo/home-fashion-4.jpg" alt="Demo"></a>
-                            <a href="home-fashion-4.html" class="demo-name">Home Fashion 4</a>
+                            <a href="home-fashion-4.php" class="demo-img"><img src="images/demo/home-fashion-4.jpg" alt="Demo"></a>
+                            <a href="home-fashion-4.php" class="demo-name">Home Fashion 4</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-cosmetic.html" class="demo-img"><img src="images/demo/home-cosmetic.jpg" alt="Demo"></a>
-                            <a href="home-cosmetic.html" class="demo-name">Home Cosmetic</a>
+                            <a href="home-cosmetic.php" class="demo-img"><img src="images/demo/home-cosmetic.jpg" alt="Demo"></a>
+                            <a href="home-cosmetic.php" class="demo-name">Home Cosmetic</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-skin-care.html" class="demo-img"><img src="images/demo/home-skin-care.jpg" alt="Demo"></a>
-                            <a href="home-skin-care.html" class="demo-name">Home Skincare</a>
+                            <a href="home-skin-care.php" class="demo-img"><img src="images/demo/home-skin-care.jpg" alt="Demo"></a>
+                            <a href="home-skin-care.php" class="demo-name">Home Skincare</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-decor.html" class="demo-img"><img src="images/demo/home-decor.jpg" alt="Demo"></a>
-                            <a href="home-decor.html" class="demo-name">Home Decor</a>
+                            <a href="home-decor.php" class="demo-img"><img src="images/demo/home-decor.jpg" alt="Demo"></a>
+                            <a href="home-decor.php" class="demo-name">Home Decor</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-jewelry.html" class="demo-img"><img src="images/demo/home-jewelry.jpg" alt="Demo"></a>
-                            <a href="home-jewelry.html" class="demo-name">Home Jewelry</a>
+                            <a href="home-jewelry.php" class="demo-img"><img src="images/demo/home-jewelry.jpg" alt="Demo"></a>
+                            <a href="home-jewelry.php" class="demo-name">Home Jewelry</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-electronic-market.html" class="demo-img"><img src="images/demo/home-electronic-market.jpg" alt="Demo"></a>
-                            <a href="home-electronic-market.html" class="demo-name">Home
+                            <a href="home-electronic-market.php" class="demo-img"><img src="images/demo/home-electronic-market.jpg" alt="Demo"></a>
+                            <a href="home-electronic-market.php" class="demo-name">Home
                                 Electric Market</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-pet-store.html" class="demo-img"><img src="images/demo/home-pet-store.jpg" alt="Demo"></a>
-                            <a href="home-pet-store.html" class="demo-name">Home Pet Store</a>
+                            <a href="home-pet-store.php" class="demo-img"><img src="images/demo/home-pet-store.jpg" alt="Demo"></a>
+                            <a href="home-pet-store.php" class="demo-name">Home Pet Store</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-sneaker.html" class="demo-img"><img src="images/demo/home-sneaker.jpg" alt="Demo"></a>
-                            <a href="home-sneaker.html" class="demo-name">Home Sneaker</a>
+                            <a href="home-sneaker.php" class="demo-img"><img src="images/demo/home-sneaker.jpg" alt="Demo"></a>
+                            <a href="home-sneaker.php" class="demo-name">Home Sneaker</a>
                         </div>
                         <!-- New -->
                         <div class="demo-item">
-                            <a href="home-book.html" class="demo-img">
+                            <a href="home-book.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-book.jpg" data-src="images/demo/home-book.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-book.html" class="demo-name link">Home Book</a>
+                            <a href="home-book.php" class="demo-name link">Home Book</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-organic.html" class="demo-img">
+                            <a href="home-organic.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-organic.jpg" data-src="images/demo/home-organic.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-organic.html" class="demo-name link">Home Organic</a>
+                            <a href="home-organic.php" class="demo-name link">Home Organic</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-medical.html" class="demo-img">
+                            <a href="home-medical.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-medical.jpg" data-src="images/demo/home-medical.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-medical.html" class="demo-name link">Home Medical</a>
+                            <a href="home-medical.php" class="demo-name link">Home Medical</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-gym.html" class="demo-img">
+                            <a href="home-gym.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-gym.jpg" data-src="images/demo/home-gym.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-gym.html" class="demo-name link">Home Gym</a>
+                            <a href="home-gym.php" class="demo-name link">Home Gym</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-art.html" class="demo-img">
+                            <a href="home-art.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-art.jpg" data-src="images/demo/home-art.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-art.html" class="demo-name link">Home Art</a>
+                            <a href="home-art.php" class="demo-name link">Home Art</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-accessories.html" class="demo-img">
+                            <a href="home-accessories.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-accessories.jpg" data-src="images/demo/home-accessories.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-accessories.html" class="demo-name link">Home Accessories</a>
+                            <a href="home-accessories.php" class="demo-name link">Home Accessories</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-car-auto.html" class="demo-img">
+                            <a href="home-car-auto.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-car-auto.jpg" data-src="images/demo/home-car-auto.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-car-auto.html" class="demo-name link">Home Car Auto</a>
+                            <a href="home-car-auto.php" class="demo-name link">Home Car Auto</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-travel.html" class="demo-img">
+                            <a href="home-travel.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-travel.jpg" data-src="images/demo/home-travel.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-travel.html" class="demo-name link">Home Travel</a>
+                            <a href="home-travel.php" class="demo-name link">Home Travel</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-watch.html" class="demo-img">
+                            <a href="home-watch.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-watch.jpg" data-src="images/demo/home-watch.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-watch.html" class="demo-name link">Home Watch</a>
+                            <a href="home-watch.php" class="demo-name link">Home Watch</a>
                         </div>
                     </div>
                 </div>
@@ -1341,5 +1246,5 @@
 </body>
 
 
-<!-- Mirrored from ochaka.vercel.app/account-orders.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 10:00:38 GMT -->
+<!-- Mirrored from ochaka.vercel.app/account-orders.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 10:00:38 GMT -->
 </html>

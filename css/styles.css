@@ -19412,7 +19412,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 }
 .table-my_order th:first-child,
 .table-my_order td:first-child {
-  width: 155px;
+  width: 175px;
 }
 .table-my_order th:nth-child(2),
 .table-my_order td:nth-child(2) {

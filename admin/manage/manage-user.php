@@ -8,6 +8,33 @@ if(empty($_POST['submit'])){
     $submit = $_POST['submit'];
 }
 switch($submit){
+    case 'signup':
+        $name = mysqli_real_escape_string($db, $_POST['name']);
+        $email = mysqli_real_escape_string($db, $_POST['email']);
+        $password = mysqli_real_escape_string($db, $_POST['password']);
+
+        // Check if user already exists
+        $check_user = $db->query("SELECT * FROM `user` WHERE `email` = '$email'");
+        if ($check_user->num_rows > 0) {
+            $_SESSION['errorMsg'] = 'An account with this email already exists.';
+            $_SESSION['errorStatus'] = 'danger';
+            header("Location: ../../login.php");
+        } else {
+            // Insert new user
+            $insert = $db->query("INSERT INTO `user` (`name`, `email`, `password`) VALUES ('$name', '$email', '$password')");
+            if ($insert) {
+                $_SESSION['errorMsg'] = 'Account created successfully! Please login.';
+                $_SESSION['errorStatus'] = 'success';
+                header("Location: ../../login.php");
+            } else {
+                $_SESSION['errorMsg'] = 'Error creating account. Please try again.';
+                $_SESSION['errorStatus'] = 'danger';
+                header("Location: ../../login.php");
+            }
+        }
+        break;
+
+
     case'login':
   
         $email = mysqli_real_escape_string($db, $_POST['email']);

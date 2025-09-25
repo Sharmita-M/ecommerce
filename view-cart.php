@@ -1,14 +1,4 @@
 <?php include 'includes/header.php'; 
-
-if (isset($_GET['checkout'])) {
-    if (!isset($_SESSION['u_id'])) {
-        header("Location: login.php");
-        exit();
-    } else {
-        header("Location: checkout.php");
-        exit();
-    }
-}
 ?>
 
 
@@ -46,7 +36,8 @@ if (isset($_GET['checkout'])) {
                                 <div class="text">
                                     <i class="icon icon-truck"></i>
                                     <p class="h6">
-                                        Free Shipping for orders over <span class="text-primary fw-bold">$150</span>
+                                        Free Shipping for orders over <span class="text-primary fw-bold">$499
+                                        </span>
                                     </p>
                                 </div>
                                 <div class="progress-cart">
@@ -56,7 +47,7 @@ if (isset($_GET['checkout'])) {
                                 </div>
                             </div>
                         </div>
-                        <form>
+                      <form method="POST" action="view-cart.php">
                             <table class="tf-table-page-cart">
                                 <thead>
                                     <tr>
@@ -68,13 +59,8 @@ if (isset($_GET['checkout'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                       <?php 
-                           $discount_code = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['discount_code'])) {
-    $discount_code = trim($_POST['discount_code']);
-}
 
-// Calculate cart total
+                                       <?php 
 $total = 0;
 $data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
     FROM cart
@@ -127,21 +113,64 @@ while($cart = $data->fetch_object()){
                                                  </a>
                                             </div>
                                         </td>
-                                        <td class="cart_total h6 each-subtotal-price" data-cart-title="Total"></td>
+                                        <td class="cart_total h6" data-cart-title="Total"> $<?= number_format($item_total, 2); ?></td>
                                        <td >
                                              <a href="admin/manage/manage-cart.php?action=delete&id=<?= $cart->ct_id?>"><i class="icon icon-close"></i></a>
                                         </td>
                                     </tr>
                                     <?php } ?>
+                                     </tbody>
+
+                                                <?php 
+$discount = 0;
+$discount_code = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['discount_code'])) {
+    $discount_code = trim($_POST['discount_code']);
+    $code = strtolower($discount_code);
+    // Example codes (case-insensitive)
+    if ($code === 'themesflat' && $total >= 150) {
+        $discount = $total * 0.15;
+    } elseif ($code === 'slivox' && $total >= 100) {
+        $discount = $total * 0.10;
+    } elseif ($code === 'masshin' && $total >= 200) {
+        $discount = $total * 0.20;
+    }
+}
+
+$shipping = ($total >= 499) ? 0 : 35;
+$grand_total = $total - $discount + $shipping;
+
+// Store cart totals in session for checkout
+$_SESSION['cart_total'] = $total;
+$_SESSION['cart_discount'] = $discount;
+$_SESSION['cart_shipping'] = $shipping;
+$_SESSION['cart_grand_total'] = $grand_total;
+
+// Initialize shipping method if not set
+if (!isset($_SESSION['cart_shipping'])) {
+    $_SESSION['cart_shipping'] = 0; // Default to free shipping
+}
+?>
                                 
-                                </tbody>
+                               
+                              
+    <table class="tf-table-page-cart">
                             </table>
                             <div class="ip-discount-code">
-                                <input type="text" placeholder="Add voucher discount" required>
-                                <button class="tf-btn animate-btn" type="submit">
-                                    Apply Code
-                                </button>
+                                 <input type="text" name="discount_code" placeholder="Add voucher discount" value="<?= htmlspecialchars($discount_code); ?>">
+        <button class="tf-btn animate-btn" type="submit">
+            Apply Code
+        </button>
                             </div>
+                             <?php if ($discount > 0): ?>
+        <div class="alert alert-success mt-2">
+            Discount code <strong><?= htmlspecialchars($discount_code); ?></strong> applied!
+        </div>
+    <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['discount_code'])): ?>
+        <div class="alert alert-danger mt-2">
+            Invalid or ineligible discount code.
+        </div>
+    <?php endif; ?>
                             <div class="group-discount mb-xl-0">
                                 <div class="box-discount">
                                     <div class="discount-top">
@@ -158,7 +187,7 @@ while($cart = $data->fetch_object()){
                                     <div class="discount-bot">
                                         <h6>Code: <span class="coupon-code">Themesflat</span></h6>
                                         <button class="tf-btn coupon-copy-wrap h6" type="button">
-                                            Apply Code
+                                            Copy Code
                                         </button>
                                     </div>
                                 </div>
@@ -174,16 +203,14 @@ while($cart = $data->fetch_object()){
                                             </p>
                                         </div>
                                     </div>
+
                                     <div class="discount-bot">
-                                        <h6>Code: <span class="coupon-code">SliVox</span></h6>
-                                       <form method="POST" action="view-cart.php">
-    <div class="ip-discount-code">
-        <input type="text" name="discount_code" placeholder="Add voucher discount" value="">
-        <button class="tf-btn coupon-copy-wrap h6" type="submit">
-            Apply Code
-        </button>
-    </div>
-</form>
+                                
+   <h6>Code: <span class="coupon-code">SliVox</span></h6>
+                                        <button class="tf-btn coupon-copy-wrap h6" type="button">
+                                            Copy Code
+                                        </button>
+
                                     </div>
                                 </div>
                                 <div class="box-discount">
@@ -201,7 +228,7 @@ while($cart = $data->fetch_object()){
                                     <div class="discount-bot">
                                         <h6>Code: <span class="coupon-code">MasShin</span></h6>
                                         <button class="tf-btn coupon-copy-wrap h6" type="button">
-                                            Apply Code
+                                            Copy Code
                                         </button>
                                     </div>
                                 </div>
@@ -217,24 +244,24 @@ while($cart = $data->fetch_object()){
                                 <h4 class="title fw-semibold">Order Summary</h4>
                                 <div class="subtotal h6 text-button d-flex justify-content-between align-items-center">
                                     <h6 class="fw-bold">Subtotal</h6>
-                                    <span class="total">$</span>
+                                    <span class="total">$<?= number_format($total, 2); ?></span>
                                 </div>
                                 
                                 <div class="discount  text-button d-flex justify-content-between align-items-center">
                                     <h6 class="fw-bold">Discount</h6>
-                                    <span class="total h6">-$</span>
+                                    <span class="total h6">-$<?= number_format($discount, 2); ?></span>
                                 </div>
                                 <div class="ship">
-                                    <h6 class="fw-bold">Shipping</h6>
-                                    <div class="flex-grow-1">
-                                        <fieldset class="ship-item">
-                                            <input type="radio" name="ship-check" class="tf-check-rounded" id="free" checked>
-                                            <label class="h6" for="free">
-                                                <span>Free Shipping</span>
-                                                <span class="price">$0.00</span>
-                                            </label>
-                                        </fieldset>
-                                        <fieldset class="ship-item">
+            <h6 class="fw-bold">Shipping</h6>
+            <div class="flex-grow-1">
+                <fieldset class="ship-item">
+                    <input type="radio" name="ship-check" class="tf-check-rounded" id="shipping" checked>
+                    <label class="h6" for="shipping">
+                        <span><?= $shipping == 0 ? 'Free Shipping' : 'Delivery Charge'; ?></span>
+                        <span class="price">$<?= number_format($shipping, 2); ?></span>
+                    </label>
+                </fieldset>
+                                        <!-- <fieldset class="ship-item">
                                             <input type="radio" name="ship-check" class="tf-check-rounded" id="local">
                                             <label class="h6" for="local">
                                                 <span>Local:</span>
@@ -247,15 +274,22 @@ while($cart = $data->fetch_object()){
                                                 <span>Flat Rate:</span>
                                                 <span class="price">$35.00</span>
                                             </label>
-                                        </fieldset>
+                                        </fieldset> -->
                                     </div>
                                 </div>
                                 <h5 class="total-order d-flex justify-content-between align-items-center">
                                     <span>Total</span>
-                                    <span class="total each-total-price">hgfcb</span>
+                                   <span class="total">
+        $<?= number_format($grand_total, 2); ?>
+        <?php if ($discount > 0): ?>
+            <small class="text-success d-block" style="font-size:12px;">
+                (<?= number_format($total, 2); ?> - <?= number_format($discount, 2); ?> + <?= number_format($shipping, 2); ?>)
+            </small>
+        <?php endif; ?>
+    </span>
                                 </h5>
                                 <div class="list-ver">
-                                    <a href="view-cart.php?checkout=1" id="proceedCheckout" class="tf-btn w-100 animate-btn">
+                                    <a href="admin/manage/manage-cart.php?action=checkout" id="proceedCheckout" class="tf-btn w-100 animate-btn">
                                         Process to checkout
                                         <i class="icon icon-arrow-right"></i>
                                     </a>
@@ -1032,7 +1066,7 @@ while($cart = $data->fetch_object()){
                         <div class="tf-mini-cart-threshold">
                             <div class="text">
                                 <h6 class="subtotal">Subtotal (<span class="prd-count">3</span> item)</h6>
-                                <h4 class="text-primary total-price tf-totals-total-value">$60.00</h4>
+                                <h4 class="text-primary total-price tf-totals-total-value"> </h4>
                             </div>
                             <div class="tf-progress-bar tf-progress-ship">
                                 <div class="value" style="width: 0%;" data-progress="25"></div>
@@ -1044,10 +1078,11 @@ while($cart = $data->fetch_object()){
                                 <a href="view-cart.php" class="tf-btn btn-white animate-btn animate-dark line">View cart</a>
                                 <a href="checkout.php" class="tf-btn animate-btn d-inline-flex bg-dark-2 w-100 justify-content-center"><span>Check
                                         out</span></a>
+
                             </div>
                             <div class="free-shipping">
                                 <i class="icon icon-truck"></i>
-                                Free shipping on all orders over $150
+                                Free shipping on all orders over $499
                             </div>
                         </div>
                     </div>

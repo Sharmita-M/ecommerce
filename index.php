@@ -173,7 +173,7 @@
                                         </a>
                                         <ul class="product-action_list">
                                             <li>
-                                                <a href="#shoppingCart" data-bs-toggle="offcanvas" class="hover-tooltip tooltip-left box-icon">
+                                                <a href="admin/manage/manage-cart.php?action=submit&id=<?= $product->id; ?>"  class="hover-tooltip tooltip-left box-icon">
                                                  <span class="icon icon-shopping-cart-simple"></span>
                                                     <span class="tooltip" >Add to cart</span>
                                                 </a>

@@ -25,9 +25,9 @@ $extra_images = $db->query("
             <div class="container">
                 <div class="content">
                     <ul class="breadcrumbs-page">
-                        <li><a href="index.html" class="h6 link">Home</a></li>
+                        <li><a href="index.php" class="h6 link">Home</a></li>
                         <li class="d-flex"><i class="icon icon-caret-right"></i></li>
-                        <li><a href="shop-default.html" class="h6 link"
+                        <li><a href="shop-default.php" class="h6 link"
                         .>Shop</a></li>
                         <li class="d-flex"><i class="icon icon-caret-right"></i></li>
                         <li>
@@ -303,6 +303,7 @@ $extra_images = $db->query("
                                             </div>
                                         </div>
                                     </div>
+                                 
                                     <div class="tf-product-total-quantity">
                                         <div class="group-btn">
                                             <div class="wg-quantity">
@@ -314,10 +315,10 @@ $extra_images = $db->query("
                                                     <i class="icon icon-plus"></i>
                                                 </button>
                                             </div>
-                                            <button type="submit" name="action" value="submit" href="#shoppingCart" data-bs-toggle="offcanvas" class="tf-btn animate-btn btn-add-to-cart">
+                                            <a href="admin/manage/manage-cart.php?action=submit&id=<?= $product->id; ?>" class="tf-btn animate-btn btn-add-to-cart">
                                                 ADD TO CART
                                                 <i class="icon icon-shopping-cart-simple"></i>
-                                            </button>
+                                            </a>
                                             <button type="button" class="hover-tooltip box-icon btn-add-wishlist">
                                                 <span class="icon icon-heart"></span>
                                                 <span class="tooltip">Add to Wishlist</span>
@@ -327,8 +328,10 @@ $extra_images = $db->query("
                                                 <span class="tooltip">Compare</span>
                                             </a>
                                         </div>
-                                        <a href="checkout.html" class="tf-btn btn-primary w-100">BUY IT NOW</a>
+
+                                        <a class="tf-btn btn-primary w-100">BUY IT NOW</a>
                                     </div>
+                                    
                                     <div class="tf-product-extra-link">
                                         <a href="#compareColor" data-bs-toggle="modal" class="product-extra-icon link">
                                             <i class="icon icon-swatches"></i>Compare color
@@ -405,7 +408,7 @@ $extra_images = $db->query("
                                 </div>
                                 <div class="tf-mini-cart-info">
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link text-line-clamp-1">Queen fashion long sleeve shirt, basic
+                                        <a href="product-detail.php" class="link text-line-clamp-1">Queen fashion long sleeve shirt, basic
                                             t-shirt</a>
                                     </h6>
                                     <div class="size">
@@ -1499,7 +1502,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/product-21.jpg"
                                             data-src="images/products/product-21.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/product-22.jpg" data-src="images/products/product-22.jpg"
@@ -1545,7 +1548,7 @@ $extra_images = $db->query("
                                     </div>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Half sleeve crop top</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Half sleeve crop top</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$119,99</span>
                                         <span class="price-new h6">$84,99</span>
@@ -1565,7 +1568,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/product-33.jpg"
                                             data-src="images/products/product-33.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/product-34.jpg" data-src="images/products/product-34.jpg"
@@ -1602,7 +1605,7 @@ $extra_images = $db->query("
                                     </ul>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Summer two piece set</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Summer two piece set</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$139,99</span>
                                         <span class="price-new h6">$94,99</span>
@@ -1635,7 +1638,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/product-37.jpg"
                                             data-src="images/products/product-37.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/product-38.jpg" data-src="images/products/product-38.jpg"
@@ -1910,7 +1913,7 @@ $extra_images = $db->query("
                                     </div>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Women's straight leg pants</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Women's straight leg pants</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$69,99</span>
                                         <span class="price-new h6">$44,99</span>
@@ -1943,7 +1946,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/product-41.jpg"
                                             data-src="images/products/product-41.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/product-42.jpg" data-src="images/products/product-42.jpg"
@@ -1985,7 +1988,7 @@ $extra_images = $db->query("
                                     </div>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Short sleeve office shirt</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Short sleeve office shirt</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$129,99</span>
                                         <span class="price-new h6">$89,99</span>
@@ -2032,7 +2035,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/underwear/product-1.jpg"
                                             data-src="images/products/underwear/product-1.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/underwear/product-2.jpg"
@@ -2072,7 +2075,7 @@ $extra_images = $db->query("
                                     </div>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Seamless breathable thong</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Seamless breathable thong</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$99,99</span>
                                         <span class="price-new h6">$69,99</span>
@@ -2099,7 +2102,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/underwear/product-4.jpg"
                                             data-src="images/products/underwear/product-4.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/underwear/product-5.jpg"
@@ -2364,7 +2367,7 @@ $extra_images = $db->query("
                                     </div>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Cotton high waisted panties</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Cotton high waisted panties</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal"> $89,99</span>
                                         <span class="price-new h6">$59,99</span>
@@ -2396,7 +2399,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/underwear/product-8.jpg"
                                             data-src="images/products/underwear/product-8.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/underwear/product-9.jpg"
@@ -2671,7 +2674,7 @@ $extra_images = $db->query("
                                     </div>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Sexy lace panties</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Sexy lace panties</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$79,99</span>
                                         <span class="price-new h6">$49,99</span>
@@ -2703,7 +2706,7 @@ $extra_images = $db->query("
                         <div class="swiper-slide">
                             <div class="card-product">
                                 <div class="card-product_wrapper">
-                                    <a href="product-detail.html" class="product-img">
+                                    <a href="product-detail.php" class="product-img">
                                         <img class="lazyload img-product" src="images/products/underwear/product-12.jpg"
                                             data-src="images/products/underwear/product-12.jpg" alt="Product">
                                         <img class="lazyload img-hover" src="images/products/underwear/product-13.jpg"
@@ -2740,7 +2743,7 @@ $extra_images = $db->query("
                                     </div>
                                 </div>
                                 <div class="card-product_info">
-                                    <a href="product-detail.html" class="name-product h4 link">Seamless underwear</a>
+                                    <a href="product-detail.php" class="name-product h4 link">Seamless underwear</a>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$109,99</span>
                                         <span class="price-new h6">$74,99</span>
@@ -2778,7 +2781,7 @@ $extra_images = $db->query("
         </span>
         <div class="canvas-header">
             <p class="text-logo-mb">Ochaka.</p>
-            <a href="login.html" class="tf-btn type-small style-2">
+            <a href="login.php" class="tf-btn type-small style-2">
                 Login
                 <i class="icon icon-user"></i>
             </a>
@@ -2789,7 +2792,7 @@ $extra_images = $db->query("
                 <ul class="nav-ul-mb" id="wrapper-menu-navigation"></ul>
             </div>
             <div class="group-btn">
-                <a href="wishlist.html" class="tf-btn type-small style-2">
+                <a href="wishlist.php" class="tf-btn type-small style-2">
                     Wishlist
                     <i class="icon icon-heart"></i>
                 </a>
@@ -2858,7 +2861,7 @@ $extra_images = $db->query("
     <!-- Toolbar -->
     <div class="tf-toolbar-bottom">
         <div class="toolbar-item">
-            <a href="shop-default.html">
+            <a href="shop-default.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-storefront"></i>
                 </span>
@@ -2874,7 +2877,7 @@ $extra_images = $db->query("
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="account-page.html">
+            <a href="account-page.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-user"></i>
                 </span>
@@ -2882,7 +2885,7 @@ $extra_images = $db->query("
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="wishlist.html">
+            <a href="wishlist.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-heart"></i>
                     <span class="toolbar-count">7</span>
@@ -2891,7 +2894,7 @@ $extra_images = $db->query("
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="view-cart.html">
+            <a href="view-cart.php">
                 <span class="toolbar-icon">
                     <i class="icon icon-shopping-cart-simple"></i>
                     <span class="toolbar-count">24</span>
@@ -3051,7 +3054,7 @@ $extra_images = $db->query("
                         <div class="tf-compare-offcanvas list-empty">
                             <p class="box-text_empty h6 text-main">Your Compare is curently empty</p>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -3060,7 +3063,7 @@ $extra_images = $db->query("
                                 </a>
                             </div>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -3069,7 +3072,7 @@ $extra_images = $db->query("
                                 </a>
                             </div>
                             <div class="tf-compare-item file-delete">
-                                <a href="product-detail.html">
+                                <a href="product-detail.php">
                                     <div class="icon remove">
                                         <i class="icon-close"></i>
                                     </div>
@@ -3079,7 +3082,7 @@ $extra_images = $db->query("
                             </div>
                         </div>
                         <div class="tf-compare-buttons">
-                            <a href="compare.html" class="tf-btn animate-btn d-inline-flex bg-dark-2 justify-content-center">
+                            <a href="compare.php" class="tf-btn animate-btn d-inline-flex bg-dark-2 justify-content-center">
                                 Compare
                             </a>
                             <div class="tf-btn btn-white animate-btn animate-dark line clear-list-empty tf-compare-button-clear-all">
@@ -3131,7 +3134,7 @@ $extra_images = $db->query("
                 <div class="tf-product-info-wrap">
                     <div class="tf-product-info-inner tf-product-info-list">
                         <div class="tf-product-info-heading">
-                            <a href="product-detail.html" class="link product-info-name fw-medium h1">
+                            <a href="product-detail.php" class="link product-info-name fw-medium h1">
                                 Casual Round Neck T-Shirt
                             </a>
                             <div class="product-info-meta">
@@ -3275,7 +3278,7 @@ $extra_images = $db->query("
                                 </a>
                             </div>
                             <div class="group-btn">
-                                <a href="checkout.html" class="tf-btn btn-yellow w-100 animate-btn animate-dark">
+                                <a href="checkout.php" class="tf-btn btn-yellow w-100 animate-btn animate-dark">
                                     Pay with
                                     <span class="icon">
                                         <svg width="68" height="18" viewBox="0 0 68 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3304,7 +3307,7 @@ $extra_images = $db->query("
                                 </a>
                             </div>
                         </div>
-                        <a href="product-detail.html" class="tf-btn-line text-normal letter-space-0 fw-normal">
+                        <a href="product-detail.php" class="tf-btn-line text-normal letter-space-0 fw-normal">
                             <span class="h5">View full details</span>
                             <i class="icon icon-arrow-top-right fs-24"></i>
                         </a>
@@ -3328,39 +3331,39 @@ $extra_images = $db->query("
                         <button type="submit" class="link"><i class="icon icon-magnifying-glass"></i></button>
                     </form>
                     <ul class="quick-link-list">
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Graphic tees</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Plain t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Vintage t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Band tees</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Custom t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Oversized t-shirts</a></li>
-                        <li><a href="shop-default-list.html" class="link-item text-main h6 link">Crew neck t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Graphic tees</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Plain t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Vintage t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Band tees</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Custom t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Oversized t-shirts</a></li>
+                        <li><a href="shop-default-list.php" class="link-item text-main h6 link">Crew neck t-shirts</a></li>
                     </ul>
                 </div>
                 <div class="view-history-wrap">
                     <h4 class="title">History</h4>
                     <div class="view-history-list">
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>High Visibility T Shirt Short Sleeve Reflective</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Short sleeve round neck t-shirt</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Fashionable oversized hoodie for women</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Queen fashion long sleeve shirt, basic t-shirt</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Lee Women's Wrinkle Free Relaxed Fit Straight Leg Pant</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
-                        <a class="item text-main link h6" href="shop-default-list.html">
+                        <a class="item text-main link h6" href="shop-default-list.php">
                             <span>Women's Summer Oversized T-Shirt Casual Office Fashion</span>
                             <i class="icon icon-arrow-top-right"></i>
                         </a>
@@ -3383,7 +3386,7 @@ $extra_images = $db->query("
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">T-shirt</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Queen fashion long sleeve shirt, basic t-shirt</a>
+                                        <a href="product-detail.php" class="link">Queen fashion long sleeve shirt, basic t-shirt</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$99,99</span>
@@ -3398,7 +3401,7 @@ $extra_images = $db->query("
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Hoodie</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Champion Reverse Weave Pullover</a>
+                                        <a href="product-detail.php" class="link">Champion Reverse Weave Pullover</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$149.99</span>
@@ -3415,7 +3418,7 @@ $extra_images = $db->query("
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Shorts</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Columbia PFG Fishing Shirt</a>
+                                        <a href="product-detail.php" class="link">Columbia PFG Fishing Shirt</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$109.99</span>
@@ -3430,7 +3433,7 @@ $extra_images = $db->query("
                                 <div class="content">
                                     <div class="text-small text-main-2 sub">Sweatshirt</div>
                                     <h6 class="title">
-                                        <a href="product-detail.html" class="link">Puma Essentials Graphic Tee</a>
+                                        <a href="product-detail.php" class="link">Puma Essentials Graphic Tee</a>
                                     </h6>
                                     <div class="price-wrap">
                                         <span class="price-old h6 fw-normal">$69.99</span>
@@ -3947,131 +3950,131 @@ $extra_images = $db->query("
                 <div class="mega-menu">
                     <div class="row-demo">
                         <div class="demo-item">
-                            <a href="index.html" class="demo-img"><img src="images/demo/home-fashion-1.jpg" alt="Demo"></a>
-                            <a href="index.html" class="demo-name">Home Fashion 1</a>
+                            <a href="index.php" class="demo-img"><img src="images/demo/home-fashion-1.jpg" alt="Demo"></a>
+                            <a href="index.php" class="demo-name">Home Fashion 1</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-2.html" class="demo-img"><img src="images/demo/home-fashion-2.jpg" alt="Demo"></a>
-                            <a href="home-fashion-2.html" class="demo-name">Home Fashion 2</a>
+                            <a href="home-fashion-2.php" class="demo-img"><img src="images/demo/home-fashion-2.jpg" alt="Demo"></a>
+                            <a href="home-fashion-2.php" class="demo-name">Home Fashion 2</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-3.html" class="demo-img"><img src="images/demo/home-fashion-3.jpg" alt="Demo"></a>
-                            <a href="home-fashion-3.html" class="demo-name">Home Fashion 3</a>
+                            <a href="home-fashion-3.php" class="demo-img"><img src="images/demo/home-fashion-3.jpg" alt="Demo"></a>
+                            <a href="home-fashion-3.php" class="demo-name">Home Fashion 3</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-fashion-4.html" class="demo-img"><img src="images/demo/home-fashion-4.jpg" alt="Demo"></a>
-                            <a href="home-fashion-4.html" class="demo-name">Home Fashion 4</a>
+                            <a href="home-fashion-4.php" class="demo-img"><img src="images/demo/home-fashion-4.jpg" alt="Demo"></a>
+                            <a href="home-fashion-4.php" class="demo-name">Home Fashion 4</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-cosmetic.html" class="demo-img"><img src="images/demo/home-cosmetic.jpg" alt="Demo"></a>
-                            <a href="home-cosmetic.html" class="demo-name">Home Cosmetic</a>
+                            <a href="home-cosmetic.php" class="demo-img"><img src="images/demo/home-cosmetic.jpg" alt="Demo"></a>
+                            <a href="home-cosmetic.php" class="demo-name">Home Cosmetic</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-skin-care.html" class="demo-img"><img src="images/demo/home-skin-care.jpg" alt="Demo"></a>
-                            <a href="home-skin-care.html" class="demo-name">Home Skincare</a>
+                            <a href="home-skin-care.php" class="demo-img"><img src="images/demo/home-skin-care.jpg" alt="Demo"></a>
+                            <a href="home-skin-care.php" class="demo-name">Home Skincare</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-decor.html" class="demo-img"><img src="images/demo/home-decor.jpg" alt="Demo"></a>
-                            <a href="home-decor.html" class="demo-name">Home Decor</a>
+                            <a href="home-decor.php" class="demo-img"><img src="images/demo/home-decor.jpg" alt="Demo"></a>
+                            <a href="home-decor.php" class="demo-name">Home Decor</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-jewelry.html" class="demo-img"><img src="images/demo/home-jewelry.jpg" alt="Demo"></a>
-                            <a href="home-jewelry.html" class="demo-name">Home Jewelry</a>
+                            <a href="home-jewelry.php" class="demo-img"><img src="images/demo/home-jewelry.jpg" alt="Demo"></a>
+                            <a href="home-jewelry.php" class="demo-name">Home Jewelry</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-electronic-market.html" class="demo-img"><img src="images/demo/home-electronic-market.jpg" alt="Demo"></a>
-                            <a href="home-electronic-market.html" class="demo-name">Home
+                            <a href="home-electronic-market.php" class="demo-img"><img src="images/demo/home-electronic-market.jpg" alt="Demo"></a>
+                            <a href="home-electronic-market.php" class="demo-name">Home
                                 Electric Market</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-pet-store.html" class="demo-img"><img src="images/demo/home-pet-store.jpg" alt="Demo"></a>
-                            <a href="home-pet-store.html" class="demo-name">Home Pet Store</a>
+                            <a href="home-pet-store.php" class="demo-img"><img src="images/demo/home-pet-store.jpg" alt="Demo"></a>
+                            <a href="home-pet-store.php" class="demo-name">Home Pet Store</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-sneaker.html" class="demo-img"><img src="images/demo/home-sneaker.jpg" alt="Demo"></a>
-                            <a href="home-sneaker.html" class="demo-name">Home Sneaker</a>
+                            <a href="home-sneaker.php" class="demo-img"><img src="images/demo/home-sneaker.jpg" alt="Demo"></a>
+                            <a href="home-sneaker.php" class="demo-name">Home Sneaker</a>
                         </div>
                         <!-- New -->
                         <div class="demo-item">
-                            <a href="home-book.html" class="demo-img">
+                            <a href="home-book.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-book.jpg" data-src="images/demo/home-book.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-book.html" class="demo-name link">Home Book</a>
+                            <a href="home-book.php" class="demo-name link">Home Book</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-organic.html" class="demo-img">
+                            <a href="home-organic.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-organic.jpg" data-src="images/demo/home-organic.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-organic.html" class="demo-name link">Home Organic</a>
+                            <a href="home-organic.php" class="demo-name link">Home Organic</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-medical.html" class="demo-img">
+                            <a href="home-medical.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-medical.jpg" data-src="images/demo/home-medical.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-medical.html" class="demo-name link">Home Medical</a>
+                            <a href="home-medical.php" class="demo-name link">Home Medical</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-gym.html" class="demo-img">
+                            <a href="home-gym.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-gym.jpg" data-src="images/demo/home-gym.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-gym.html" class="demo-name link">Home Gym</a>
+                            <a href="home-gym.php" class="demo-name link">Home Gym</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-art.html" class="demo-img">
+                            <a href="home-art.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-art.jpg" data-src="images/demo/home-art.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-art.html" class="demo-name link">Home Art</a>
+                            <a href="home-art.php" class="demo-name link">Home Art</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-accessories.html" class="demo-img">
+                            <a href="home-accessories.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-accessories.jpg" data-src="images/demo/home-accessories.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-accessories.html" class="demo-name link">Home Accessories</a>
+                            <a href="home-accessories.php" class="demo-name link">Home Accessories</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-car-auto.html" class="demo-img">
+                            <a href="home-car-auto.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-car-auto.jpg" data-src="images/demo/home-car-auto.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-car-auto.html" class="demo-name link">Home Car Auto</a>
+                            <a href="home-car-auto.php" class="demo-name link">Home Car Auto</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-travel.html" class="demo-img">
+                            <a href="home-travel.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-travel.jpg" data-src="images/demo/home-travel.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-travel.html" class="demo-name link">Home Travel</a>
+                            <a href="home-travel.php" class="demo-name link">Home Travel</a>
                         </div>
                         <div class="demo-item">
-                            <a href="home-watch.html" class="demo-img">
+                            <a href="home-watch.php" class="demo-img">
                                 <img class="lazyload" src="images/demo/home-watch.jpg" data-src="images/demo/home-watch.jpg" alt="Demo">
                                 <div class="demo-label">
                                     <span>New</span>
                                 </div>
                             </a>
-                            <a href="home-watch.html" class="demo-name link">Home Watch</a>
+                            <a href="home-watch.php" class="demo-name link">Home Watch</a>
                         </div>
                     </div>
                 </div>
@@ -4081,5 +4084,5 @@ $extra_images = $db->query("
     <!-- /Demo -->
  <?php include 'includes/footer.php'; ?>
 </body>
-<!-- Mirrored from ochaka.vercel.app/product-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 09:56:29 GMT -->
+<!-- Mirrored from ochaka.vercel.app/product-detail.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 09:56:29 GMT -->
 </html>

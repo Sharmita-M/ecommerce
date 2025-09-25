@@ -1,5 +1,16 @@
 <?php
 include 'includes/header.php';
+if (!empty($_SESSION['errorMsg'])):
+    $alertClass = $_SESSION['errorStatus'] === 'success' ? 'alert-success' : 'alert-danger';
+?>
+<div id="sessionAlert" class="alert <?= $alertClass ?> alert-dismissible fade show position-absolute top-0 start-0 w-100 text-center z-3" role="alert">
+  <?= $_SESSION['errorMsg']; ?>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php
+    unset($_SESSION['errorMsg'], $_SESSION['errorStatus']);
+endif;
+
 ?>
 
 <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
@@ -42,21 +53,21 @@ include 'includes/header.php';
           <!-- Signup Form -->
           <div class="tab-pane fade" id="signup" role="tabpanel">
             <h4 class="text-center mb-3">Sign Up</h4>
-            <form>
+            <form method ="POST" action="admin/manage/manage-user.php" >
               <div class="mb-3">
                 <label for="signupName" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="signupName" placeholder="Your name">
+                <input type="text" name="name" class="form-control" id="signupName" placeholder="Your name">
               </div>
               <div class="mb-3">
                 <label for="signupEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="signupEmail" placeholder="Enter email">
+                <input type="email"  name="email" class="form-control" id="signupEmail" placeholder="Enter email">
               </div>
               <div class="mb-3">
                 <label for="signupPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="signupPassword" placeholder="Password">
+                <input type="password"  name="password" class="form-control" id="signupPassword" placeholder="Password">
               </div>
               <div class="d-grid">
-                <button type="submit" class="btn btn-success">Create Account</button>
+                <button type="submit" name="submit" value="signup" class="btn btn-success">Create Account</button>
               </div>
             </form>
           </div>

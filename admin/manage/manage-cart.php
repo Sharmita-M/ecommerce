@@ -9,7 +9,7 @@
    $session_id = session_id();
    // echo( $submit);
    // die();
-   
+  
    switch($submit){
    case 'submit':
     $p_id = mysqli_real_escape_string($db, $_REQUEST['id']);
@@ -64,7 +64,24 @@
        $db->query("UPDATE `cart` SET `qty` = '$new_qty' WHERE `ct_id` = '$cart_id'");
        header("Location: ../../view-cart.php");
                exit;
-                   break;
+                break;
+
+    case 'checkout':
+    if (!isset($_SESSION['u_id'])) {
+   
+        header("Location: ../../login.php?redirect=checkout.php");
+        exit();
+    } else {
+   
+        header("Location: ../../checkout.php");
+        exit();
+    }
+    break;
+
+    default:
+       header("Location: ../../view-cart.php");
+       exit;
+       break;
                
    };
    

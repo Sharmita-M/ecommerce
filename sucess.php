@@ -1,3 +1,21 @@
+
+<?php
+session_start();
+include 'admin/config.php'; // Include your database configuration
+
+$order_id = isset($_GET['order_id']) ? $_GET['order_id'] : 'N/A';
+$payment_id = isset($_GET['payment_id']) ? $_GET['payment_id'] : null;
+
+if ($order_id !== 'N/A') {
+    $session_id = session_id();
+    if ($session_id) {
+        $db->query("DELETE FROM `cart` WHERE `session_id` = '$session_id'");
+    }
+    // Unset all cart-related session data
+    unset($_SESSION['cart_total'], $_SESSION['cart_discount'], $_SESSION['cart_shipping'], $_SESSION['cart_grand_total'], $_SESSION['grand_total']);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,8 +41,11 @@
             <p class="text-muted mb-4">Thank you for your purchase. Your order has been placed successfully.</p>
 
             <!-- Order Info -->
-            <div class="alert alert-success">
-              <strong>Order ID:</strong> <br>
+             <div class="alert alert-success">
+                  <strong>Order ID:</strong> <br> <?php echo htmlspecialchars($order_id); ?><br>
+                  <?php if ($payment_id): ?>
+                    <strong>Payment ID:</strong> <br> <?php echo htmlspecialchars($payment_id); ?><br>
+                  <?php endif; ?>
               <!-- <strong>Amount Paid:</strong>  -->
             </div>
             <div class="d-grid gap-2 mt-4">

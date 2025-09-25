@@ -161,7 +161,25 @@ include 'admin/config.php';
                     <div class="col-xl-3 col-md-4 col-3">
                         <ul class="nav-icon-list">
                             <li class="d-none d-lg-flex">
-                                <a class="nav-icon-item link" href="login.php"><i class="icon icon-user"></i></a>
+                                <?php if (isset($_SESSION['u_id'])): ?>
+                                    <?php
+                                  
+                                    $user_query = $db->query("SELECT * FROM `user` WHERE `u_id` = '" . $_SESSION['u_id'] . "'");
+                                    $user_data = $user_query->fetch_object();
+                                   
+                                    ?>
+                                    <div class="dropdown">
+                                        <a class="nav-icon-item link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="admin/uploads/profiles/<?= $user_data->image ; ?> " alt="Profile" class="profile-avatar" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="account-page.php">My Account</a></li>
+                                            <li><a class="dropdown-item" href="admin/manage/manage-user.php?submit=logout">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                <?php else: ?>
+                                    <a class="nav-icon-item link" href="login.php"><i class="icon icon-user"></i></a>
+                                <?php endif; ?>
                             </li>
                             <li class="d-none d-md-flex">
                                 <a class="nav-icon-item link" href="#search" data-bs-toggle="modal">

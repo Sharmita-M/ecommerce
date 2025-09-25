@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; 
+<?php include 'includes/header.php';
 if (!isset($_SESSION['u_id'])) {
     echo "<script>window.location.href = 'login.php'</script>";
 
@@ -14,7 +14,7 @@ if (!empty($_SESSION['errorMsg'])):
 <?php
     unset($_SESSION['errorMsg'], $_SESSION['errorStatus']);
 endif;
-  
+
   ?>
 
 
@@ -43,7 +43,7 @@ endif;
                         <div class="tf-page-checkout mb-lg-0">
                             <div class="wrap-coupon">
                                 <!-- <h5 class="mb-12">Have a coupon? <span class="text-primary">Enter your code</span></h5>
-                              
+
                                     <div class="ip-discount-code mb-0">
                                         <input type="text" placeholder="Enter your code" required>
                                         <button class="tf-btn animate-btn" type="submit" name="apply_code" >
@@ -52,9 +52,9 @@ endif;
                                     </div>
                                 -->
                             </div>
-                           
+
                                 <div class="box-ip-checkout estimate-shipping">
-                                   
+
                                     <h2 class="title type-semibold">Infomation</h2>
                                     <div class="form_content">
                                         <div class="cols tf-grid-layout sm-col-2">
@@ -123,7 +123,7 @@ endif;
                                                 <div class="tf-select">
                                                     <select id="shipping-province-form" name="address_province" data-default="">
                                                         <option selected disabled value="">Choose State</option>
-                                            
+
                                                     </select>
                                                 </div>
                                             </fieldset>
@@ -137,12 +137,12 @@ endif;
                                            Save Adress
                                         </button>
                                 </div>
-                                
+
                                 <?php
 $result = $db->query("SELECT * FROM adress  ");
 while($row = $result->fetch_object()){
 ?>
-<label for="express" class="check-ship w-100">
+<label for="express" class="check-ship w-100 mt-4 mb-5">
     <input type="radio" id="express" name="adress" value="<?= $row->ad_id?>" class="tf-check-rounded style-2 line-black">
      <span class="">Choose Adress</span> <br>
      <div>
@@ -151,7 +151,7 @@ while($row = $result->fetch_object()){
         </div>
         <!-- <span class="price fw-medium d-block mt-2 text-primary">$5.00</span> -->
 </label>
-<?php } ?>                   
+<?php } ?>
                                 <div class="box-ip-payment">
                                     <h2 class="title type-semibold">Choose Payment Option</h2>
                                     <div class="payment-method-box" id="payment-method-box">
@@ -232,32 +232,32 @@ while($row = $result->fetch_object()){
                                     </div>
                                 </div>
 
-  
 
-                                <div class="box-ip-shipping">
+
+                                <!-- <div class="box-ip-shipping">
                                     <h2 class="title type-semibold">Shipping Method</h2>
-                                    <label for="freeship" class="check-ship mb-12">
-                                        <input type="radio" id="freeship" class="tf-check-rounded style-2 line-black" name="checkshipping" checked>
+                                    <label for="normal" class="check-ship mb-12">
+                                        <input type="radio" id="normal" class="tf-check-rounded style-2 line-black" name="checkshipping" value="normal" <?= (!isset($_SESSION['cart_shipping_method']) || $_SESSION['cart_shipping_method'] == 'normal') ? 'checked' : '' ?>>
                                         <span class="text h6">
-                                            <span class="">Free shipping (Estimate in 01/05 - 05/05/2025)</span>
-                                            <span class="price">$00.00</span>
+                                            <span class="">Normal shipping (Estimate in 01/05 - 05/05/2025)</span>
+                                            <span class="price">$0.00</span>
                                         </span>
                                     </label>
                                     <label for="express" class="check-ship">
-                                        <input type="radio" id="express" class="tf-check-rounded style-2 line-black" name="checkshipping">
+                                        <input type="radio" id="express" class="tf-check-rounded style-2 line-black" name="checkshipping" value="express" <?= (isset($_SESSION['cart_shipping_method']) && $_SESSION['cart_shipping_method'] == 'express') ? 'checked' : '' ?>>
                                         <span class="text h6">
                                             <span class="">Express shipping (Estimate in 01/05 - 05/05/2025)</span>
                                             <span class="price fw-medium">$5.00</span>
                                         </span>
                                     </label>
-                                </div>
-                                <div class="button_submit">
+                                </div> -->
+                                <div class="button_submit mt-5">
                                     <button type="submit" name="action" value="checkout" class="tf-btn animate-btn w-100">
                                         Place Order
                                     </button>
-                                      
+
                                 </div>
-                        
+
                         </div>
                     </div>
                     <div class="col-lg-5">
@@ -265,15 +265,21 @@ while($row = $result->fetch_object()){
                             <div class="box-your-order">
                                 <h2 class="title type-semibold">Your Order</h2>
                                 <ul class="list-order-product">
-                                                <?php 
-                                                $total = 0;
+                                                <?php
+                                                // Use session variables from cart page instead of recalculating
+                                                $total = isset($_SESSION['cart_total']) ? $_SESSION['cart_total'] : 0;
+                                                $discount = isset($_SESSION['cart_discount']) ? $_SESSION['cart_discount'] : 0;
+                                                $shipping = isset($_SESSION['cart_shipping']) ? $_SESSION['cart_shipping'] : 0;
+                                                $grand_total = isset($_SESSION['cart_grand_total']) ? $_SESSION['cart_grand_total'] : $total;
+
+                                                // Set grand total in session for UPI payment
+                                                $_SESSION['grand_total'] = $grand_total;
+
                                                 $data = $db->query("SELECT cart.*, product.id AS p_id, product.product_name, product.product_image, product.product_selling_price
                                                 FROM cart
                                                 LEFT JOIN product ON cart.p_id = product.id
                                                 ORDER BY cart.ct_id DESC ");
-                                while($cart = $data->fetch_object()){ 
-                                     $item_total = $cart->product_selling_price * $cart->qty;
-                                        $total += $item_total;
+                                while($cart = $data->fetch_object()){
                                     ?>
                                     <input type="hidden" name="cart_id[]" value="<?= $cart->ct_id ?>">
                                     <li class="order-item">
@@ -295,22 +301,22 @@ while($row = $result->fetch_object()){
                                              $<?= $cart->product_selling_price ?> x <?= $cart->qty ?>
                                         </p>
                                     </li>
-                                  <?php } $_SESSION['cart_total'] = $total;?>
-                                  
+                                  <?php } ?>
+
                                 </ul>
                                 <ul class="list-total">
                                     <li class="total-item h6">
                                         <span class="fw-bold text-black">Discounts</span>
-                                        <span>$20.00</span>
+                                        <span>-$<?= number_format($discount, 2) ?></span>
                                     </li>
                                     <li class="total-item h6">
                                         <span class="fw-bold text-black">Shipping</span>
-                                        <span>Free</span>
+                                        <span><?= $shipping == 0 ? 'Free' : '$' . number_format($shipping, 2) ?></span>
                                     </li>
                                 </ul>
                                 <div class="last-total h5 fw-medium text-black">
                                     <span>Total</span>
-                                    <span>$<?= number_format($total, 2) ?></span>
+                                    <span>$<?= number_format($grand_total, 2) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -1344,6 +1350,78 @@ while($row = $result->fetch_object()){
     </div>
     <!-- /Demo -->
  <?php include 'includes/footer.php'; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const shippingRadios = document.querySelectorAll('input[name="checkshipping"]');
+    const shippingDisplay = document.querySelector('.list-total .total-item:nth-child(2) span:last-child');
+    const totalDisplay = document.querySelector('.last-total span:last-child');
+
+    // Get current totals from session
+    const subtotal = <?= isset($_SESSION['cart_total']) ? $_SESSION['cart_total'] : 0 ?>;
+    const discount = <?= isset($_SESSION['cart_discount']) ? $_SESSION['cart_discount'] : 0 ?>;
+    const baseShipping = <?= isset($_SESSION['cart_shipping']) ? $_SESSION['cart_shipping'] : 0 ?>;
+
+    function updateTotals(isExpress) {
+        const shippingCost = isExpress ? baseShipping + 5 : baseShipping;
+        const grandTotal = subtotal - discount + shippingCost;
+
+        // Update shipping display
+        shippingDisplay.textContent = '$' + shippingCost.toFixed(2);
+
+        // Update total display
+        totalDisplay.textContent = '$' + grandTotal.toFixed(2);
+
+        // Update session via AJAX
+        fetch('admin/manage/update-shipping.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'is_express=' + (isExpress ? 1 : 0) + '&base_shipping=' + baseShipping
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Shipping updated successfully');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating shipping:', error);
+        });
+    }
+
+    // Form validation for checkout
+    const checkoutForm = document.querySelector('.tf-checkout-cart-main');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function(event) {
+            const selectedAddress = document.querySelector('input[name="adress"]:checked');
+            const selectedPayment = document.querySelector('input[name="payment-method"]:checked');
+            const agreeCheckbox = document.getElementById('agree');
+
+            if (!selectedAddress) {
+                alert('Please select an address before proceeding.');
+                event.preventDefault();
+                return;
+            }
+
+            if (!selectedPayment) {
+                alert('Please select a payment method before proceeding.');
+                event.preventDefault();
+                return;
+            }
+
+            if (!agreeCheckbox.checked) {
+                alert('Please agree to the terms and conditions before proceeding.');
+                event.preventDefault();
+                return;
+            }
+
+        });
+    }
+});
+</script>
+
 </body>
 <!-- Mirrored from ochaka.vercel.app/checkout.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Jul 2025 09:57:25 GMT -->
 </html>

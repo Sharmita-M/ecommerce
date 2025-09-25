@@ -1,4 +1,7 @@
-<?php session_start();  ?>
+<?php 
+session_start();
+$order_id = isset($_GET['order_id']) ? $_GET['order_id'] : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +26,7 @@
     
             <div class="mb-3">
               <label for="amountInr" class="form-label fw-semibold">Amount (INR)</label>
-              <input id="amountInr" type="number" min="1" value="<?php echo isset($_SESSION['cart_total']) ? $_SESSION['cart_total'] : ''; ?>" disabled class="form-control form-control-lg">
+              <input id="amountInr" type="number" min="1" value="<?php echo isset($_SESSION['grand_total']) ? $_SESSION['grand_total'] : ''; ?>" disabled class="form-control form-control-lg">
             </div>
 
             <!-- Pay button -->
@@ -58,6 +61,7 @@
       // amount in paisa (₹1 = 100 paisa)
       const inr = parseInt(document.getElementById('amountInr').value || '0', 10);
       const amountPaisa = Math.max(1, inr) * 100;
+        const orderId = "<?php echo $order_id; ?>";
 
   const options = {
         key: "rzp_test_RHkV1el3P3LVmQ",            // ✅ Test Key ID (OK on frontend)
@@ -81,7 +85,7 @@
           // response.razorpay_order_id (if supplied)
           // response.razorpay_signature (if supplied)
           //alert("Payment successful!\nPayment ID: " + response.razorpay_payment_id);
-          window.location.href = 'sucess.php?payment_id=' + response.razorpay_payment_id;
+             window.location.href = 'sucess.php?payment_id=' + response.razorpay_payment_id + '&order_id=' + orderId;
           // ⚠ IMPORTANT: For real usage, POST these values to your server and
           // verify the signature using your Key Secret on the backend.
         },
@@ -99,14 +103,6 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 

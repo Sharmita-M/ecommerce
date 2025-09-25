@@ -34,13 +34,21 @@ switch($submit){
         };
     
         header("Location: ../../checkout.php?success");
-    break;
+   
+       break;
 
     case 'checkout':
+    if (!isset($_SESSION['u_id'])) {
+        $_SESSION['errorMsg'] = 'You must be logged in to checkout.';
+        $_SESSION['errorStatus'] = 'danger';
+        header("Location: ../../login.php");
+        exit;
+    }
+
     $address =  mysqli_real_escape_string($db, $_POST['adress']);
     $payment =  mysqli_real_escape_string($db, $_POST['payment-method']);
-        $order_id = 'ORD' . strtoupper(uniqid());
-        $db->query("INSERT INTO `order_details` (payment_method, order_id, adress_id, order_status, create_at) VALUES ('$payment', '$order_id', '$address', '0', '$datetime')");
+         $order_id = 'ORD' . strtoupper(uniqid());
+        $db->query("INSERT INTO `order_details` (payment_method, order_id, adress_id, u_id, order_status, create_at) VALUES ('$payment', '$order_id', '$address', '{$_SESSION['u_id']}', '0', '$datetime')");
         $cart_ids = $_POST['cart_id'];
         foreach ($cart_ids as $cart_id) {
             $cart_data = $db->query("SELECT * FROM `cart` WHERE ct_id = '$cart_id'");
@@ -48,10 +56,8 @@ switch($submit){
             $p_id = $cart->p_id;
             $qty = $cart->qty;
             $total_price = $cart->price * $qty;
-            $od_data = $db->query("SELECT * FROM `order_details`");
-            $odData = $od_data->fetch_object();
-            $od_id = $odData->od_id;
-            $db->query("INSERT INTO `order_data` (od_id,order_id, ct_id, p_id, price, delivery_details, create_at) VALUES ('$od_id','$order_id', '$cart_id', '$p_id', '$total_price','$address', '$datetime')");
+            // Correctly insert the product ID ($p_id) into the p_id column.
+            $db->query("INSERT INTO `order_data` (order_id, ct_id, p_id, price, delivery_details, create_at) VALUES ('$order_id', '$cart_id', '$p_id', '$total_price','$address', '$datetime')");
         }
 
     if (empty($address)) {
@@ -66,9 +72,11 @@ switch($submit){
     if ($payment == "cod") {
         header("Location: ../../sucess.php?order_id=$order_id");
     } elseif ($payment == "upi") {
+        // Redirect to the UPI payment page with the order_id
         header("Location: ../../upi-payment.php?order_id=$order_id");
         
-        exit;
+        
+        exit; 
     } else {
         $_SESSION['errorMsg'] = 'Please select an payment option.';
         $_SESSION['errorStatus'] = 'danger';
